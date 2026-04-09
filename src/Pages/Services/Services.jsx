@@ -37,9 +37,10 @@ const Services = () => {
   }, [search])
 
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-100 antialiased">
+    <>
       <Navbar />
-      <main>
+      <div data-appearance="dark" className="min-h-screen bg-slate-950 text-slate-100 antialiased">
+        <main>
         <motion.section
           initial={{ opacity: 0, y: 22 }}
           animate={{ opacity: 1, y: 0 }}
@@ -50,7 +51,7 @@ const Services = () => {
             <div className="absolute -left-32 top-10 h-72 w-72 rounded-full bg-indigo-600/25 blur-[100px]" />
             <div className="absolute -right-24 bottom-0 h-72 w-72 rounded-full bg-cyan-500/15 blur-[90px]" />
             <div
-              className="absolute inset-0 opacity-[0.35]"
+              className="cw-services-hero-grid cw-services-hero-grid-lines absolute inset-0 opacity-[0.35]"
               style={{
                 backgroundImage:
                   'linear-gradient(to right, rgba(255,255,255,0.04) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,0.04) 1px, transparent 1px)',
@@ -154,9 +155,10 @@ const Services = () => {
           </div>
         </section>
         <CtaSection />
-      </main>
-      <Footer />
-    </div>
+        </main>
+        <Footer />
+      </div>
+    </>
   )
 }
 

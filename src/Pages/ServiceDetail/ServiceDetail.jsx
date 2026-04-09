@@ -105,18 +105,19 @@ const ServiceDetail = () => {
   const activePackages = getServicePricing(category, service)
 
   return (
-    <div className="min-h-screen bg-linear-to-b from-[#060b1a] via-[#0b1533] to-[#060b1a] text-white">
+    <>
       <Navbar />
-      <main>
+      <div data-appearance="dark" className="min-h-screen bg-slate-950 text-white">
+        <main>
         <motion.section
           initial={{ opacity: 0, y: 18 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.55, ease: 'easeOut' }}
           className="relative overflow-hidden border-b border-white/10 bg-linear-to-b from-blue-900/60 to-blue-950/75 py-16 sm:py-20"
         >
-          <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(56,189,248,0.18),transparent_34%),radial-gradient(circle_at_top_left,rgba(99,102,241,0.14),transparent_40%)]" />
+          <div className="cw-service-hero-radials pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(56,189,248,0.18),transparent_34%),radial-gradient(circle_at_top_left,rgba(99,102,241,0.14),transparent_40%)]" />
           <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
-            <nav className="mb-6 flex flex-wrap items-center gap-2 text-sm text-blue-100/90">
+            <nav className="cw-breadcrumb mb-6 flex flex-wrap items-center gap-2 text-sm text-blue-100/90">
               <NavLink to="/" className="font-medium transition-colors hover:text-white">
                 Compliance World
               </NavLink>
@@ -298,9 +299,10 @@ const ServiceDetail = () => {
             </aside>
           </div>
         </section>
-      </main>
-      <Footer />
-    </div>
+        </main>
+        <Footer />
+      </div>
+    </>
   )
 }
 

@@ -5,11 +5,15 @@ import ContactUs from './Pages/ContactUs/ContactUs'
 import AboutUs from './Pages/AboutUs/AboutUs'
 import Order from './Pages/Order/Order'
 import ServiceDetail from './Pages/ServiceDetail/ServiceDetail'
+import Login from './Pages/Auth/Login'
+import Signup from './Pages/Auth/Signup'
 
 const App = () => {
   return (
     <Routes>
       <Route path="/" element={<Home />} />
+      <Route path="/login" element={<Login />} />
+      <Route path="/signup" element={<Signup />} />
       <Route path="/services" element={<Services />} />
       <Route path="/services/:categorySlug/:serviceSlug" element={<ServiceDetail />} />
       <Route path="/service-detail" element={<ServiceDetail />} />

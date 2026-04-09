@@ -75,7 +75,7 @@ const HeroSection = () => {
 
           <h1 className="hero-title text-4xl font-semibold leading-[1.08] tracking-tight sm:text-5xl lg:text-[3.35rem]">
             <span className="hero-line block text-white">Compliance that moves</span>
-            <span className="hero-line mt-1 block bg-linear-to-r from-white via-cyan-100 to-indigo-200 bg-clip-text text-transparent">
+            <span className="cw-hero-gradient-line hero-line mt-1 block bg-linear-to-r from-white via-cyan-100 to-indigo-200 bg-clip-text text-transparent">
               as fast as your business
             </span>
           </h1>

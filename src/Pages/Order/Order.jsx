@@ -30,9 +30,13 @@ const Order = () => {
   }
 
   return (
-    <div className="min-h-screen bg-linear-to-br from-slate-950 via-slate-900 to-indigo-950 text-white">
+    <>
       <Navbar />
-      <main className="px-4 py-12 sm:px-6 lg:px-8">
+      <div
+        data-appearance="dark"
+        className="cw-order-page min-h-screen bg-linear-to-br from-slate-950 via-slate-900 to-indigo-950 text-white"
+      >
+        <main className="px-4 py-12 sm:px-6 lg:px-8">
         <section className="mx-auto w-full max-w-6xl">
           <motion.div
             initial={{ opacity: 0, y: 18 }}
@@ -134,9 +138,10 @@ const Order = () => {
             </div>
           </motion.div>
         </section>
-      </main>
-      <Footer />
-    </div>
+        </main>
+        <Footer />
+      </div>
+    </>
   )
 }
 

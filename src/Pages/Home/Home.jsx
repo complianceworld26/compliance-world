@@ -1,5 +1,6 @@
 import Navbar from '../../components/Navbar'
 import HeroSection from '../../components/HeroSection'
+import IntroVideoSection from '../../components/IntroVideoSection'
 import PartnersSection from '../../components/PartnersSection'
 import ServicesSection from '../../components/ServicesSection'
 import FeaturesSection from '../../components/FeaturesSection'
@@ -11,36 +12,42 @@ import CtaSection from '../../components/CtaSection'
 import Footer from '../../components/Footer'
 
 const SectionDivider = () => (
-  <div className="pointer-events-none py-1">
-    <div className="mx-auto h-px w-[min(92%,76rem)] bg-linear-to-r from-transparent via-white/15 to-transparent" />
+  <div className="cw-section-divide-wrap pointer-events-none shrink-0" role="presentation">
+    <div className="cw-section-divide-rail" aria-hidden>
+      <hr className="cw-section-divide" />
+    </div>
   </div>
 )
 
 const Home = () => {
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-100 antialiased">
+    <>
       <Navbar />
-      <main>
-        <HeroSection />
-        <SectionDivider />
-        <PartnersSection />
-        <SectionDivider />
-        <ServicesSection />
-        <SectionDivider />
-        <FeaturesSection />
-        <SectionDivider />
-        <HowItWorksSection />
-        <SectionDivider />
-        <TrustSection />
-        <SectionDivider />
-        <InsightsSection />
-        <SectionDivider />
-        <FaqSection />
-        <SectionDivider />
-        <CtaSection />
-      </main>
-      <Footer />
-    </div>
+      <div data-appearance="dark" className="min-h-screen bg-slate-950 text-slate-100 antialiased">
+        <main>
+          <HeroSection />
+          <SectionDivider />
+          <IntroVideoSection />
+          <SectionDivider />
+          <PartnersSection />
+          <SectionDivider />
+          <ServicesSection />
+          <SectionDivider />
+          <FeaturesSection />
+          <SectionDivider />
+          <HowItWorksSection />
+          <SectionDivider />
+          <TrustSection />
+          <SectionDivider />
+          <InsightsSection />
+          <SectionDivider />
+          <FaqSection />
+          <SectionDivider />
+          <CtaSection />
+        </main>
+        <Footer />
+      </div>
+    </>
   )
 }
 
