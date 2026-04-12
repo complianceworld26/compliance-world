@@ -38,9 +38,9 @@ const Footer = () => {
             Modern compliance platform to help startups and enterprises stay fully compliant with confidence.
           </p>
           <div className={contactClass}>
-            <p>Email: support@complianceworld.com</p>
+            <p>Email: info@complianceworld.in</p>
             <p>Phone: +91 90000 00000</p>
-            <p>Address: Mumbai, India</p>
+            <p>Address: Delhi, India</p>
           </div>
         </div>
 

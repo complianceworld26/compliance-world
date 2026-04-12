@@ -41,7 +41,7 @@ const PartnersSection = () => {
   }, [])
 
   return (
-    <section ref={rootRef} className="border-y border-white/10 bg-slate-950 py-16 sm:py-20">
+    <section ref={rootRef} className="bg-slate-950 py-16 sm:py-20">
       <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="part-head text-center">
           <p className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-400">Trusted by teams at</p>

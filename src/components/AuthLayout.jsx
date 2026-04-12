@@ -3,7 +3,7 @@ import { NavLink } from 'react-router-dom'
 import Navbar from './Navbar'
 import Footer from './Footer'
 
-const AuthLayout = ({ title, subtitle, children, alternateLabel, alternateTo }) => {
+const AuthLayout = ({ title, subtitle, children, alternateLabel, alternateTo, alternateState }) => {
   return (
     <>
       <Navbar />
@@ -30,7 +30,11 @@ const AuthLayout = ({ title, subtitle, children, alternateLabel, alternateTo }) 
             <div className="mt-8 rounded-2xl border border-white/10 bg-white/5 p-6 shadow-2xl shadow-black/25 backdrop-blur-sm sm:p-8">
               {children}
               <p className="mt-6 text-center text-sm text-slate-400">
-                <NavLink to={alternateTo} className="font-semibold text-cyan-300 transition hover:text-cyan-200">
+                <NavLink
+                  to={alternateTo}
+                  state={alternateState}
+                  className="font-semibold text-cyan-300 transition hover:text-cyan-200"
+                >
                   {alternateLabel}
                 </NavLink>
               </p>

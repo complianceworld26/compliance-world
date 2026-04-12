@@ -1,11 +1,13 @@
 import { useState } from 'react'
 import { motion } from 'framer-motion'
+import { useLocation } from 'react-router-dom'
 import AuthLayout from '../../components/AuthLayout'
 
 const inputClass =
   'w-full rounded-xl border border-white/15 bg-white/5 px-4 py-3 text-sm text-white placeholder:text-slate-400 focus:border-indigo-400 focus:outline-none'
 
 const Signup = () => {
+  const location = useLocation()
   const [form, setForm] = useState({
     name: '',
     email: '',
@@ -28,6 +30,7 @@ const Signup = () => {
       subtitle="Get compliance updates, filing status, and expert support in one workspace."
       alternateLabel="Already have an account? Sign in"
       alternateTo="/login"
+      alternateState={{ background: location }}
     >
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
