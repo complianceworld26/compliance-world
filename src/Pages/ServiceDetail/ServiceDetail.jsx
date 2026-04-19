@@ -3,6 +3,7 @@ import { motion } from 'framer-motion'
 import { NavLink, useParams, useSearchParams } from 'react-router-dom'
 import Navbar from '../../components/Navbar'
 import Footer from '../../components/Footer'
+import { ServiceWhyCallout } from '../../components/ServiceWhyCallout'
 import { getServiceContent } from '../../data/serviceContentData'
 import { getServicePricing } from '../../data/servicePricingData'
 import { serviceCategories } from '../../data/servicesData'
@@ -132,6 +133,8 @@ const ServiceDetail = () => {
     return { blocks: parsed, toc: extractTocFromBlocks(parsed) }
   }, [paragraphs])
 
+  const whyParagraphs = content?.whyParagraphs || []
+
   const categoryServices =
     serviceCategories.find((item) => item.label === category)?.options?.slice(0, 10) ?? []
 
@@ -194,6 +197,7 @@ const ServiceDetail = () => {
             </div>
           </div>
         </motion.section>
+        
 
         {activePackages.length > 0 ? (
           <section className="border-b border-white/10 py-12 sm:py-14">
@@ -264,6 +268,8 @@ const ServiceDetail = () => {
               transition={{ duration: 0.45, delay: 0.08 }}
               className="order-1 flex min-w-0 flex-1 flex-col gap-8 lg:gap-10"
             >
+              <ServiceWhyCallout title={content?.whyTitle} lines={whyParagraphs} />
+
               <div className="rounded-2xl border border-white/12 bg-linear-to-b from-white/7 to-white/4 p-6 shadow-2xl shadow-black/25 backdrop-blur-sm sm:p-8 lg:p-10">
                 <h2 className="text-3xl font-bold tracking-tight text-white">{service}</h2>
                 <div className="mt-8">
