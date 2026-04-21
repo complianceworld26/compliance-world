@@ -1,3 +1,6 @@
+import gstChunks from './Txt content/GST.json'
+import incomeTaxChunks from './Txt content/Incometax.json'
+import mcaChunks from './Txt content/MCA.json'
 import registrationChunks from './Txt content/Registration.json'
 import startupChunks from './Txt content/startup.json'
 import { serviceCategories } from './servicesData'
@@ -5,6 +8,9 @@ import { serviceCategories } from './servicesData'
 const startupServices = serviceCategories.find((item) => item.label === 'Startup')?.options ?? []
 const registrationServices =
   serviceCategories.find((item) => item.label === 'Registration')?.options ?? []
+const gstServices = serviceCategories.find((item) => item.label === 'GST')?.options ?? []
+const incomeTaxServices = serviceCategories.find((item) => item.label === 'Income Tax')?.options ?? []
+const mcaServices = serviceCategories.find((item) => item.label === 'MCA')?.options ?? []
 
 /**
  * startup.json: intro, long article ("Simple packages…"), FAQ.
@@ -56,6 +62,61 @@ const REGISTRATION_SERVICE_CHUNKS = {
   'Fire License': { whyIndices: [88], bodyIndices: [87, 89, 90] },
   'Legal Name Change': { bodyIndices: [91, 92, 93] },
 }
+
+/**
+ * GST.json chunk indices per catalog name (duplicate foreigners block at 19–22 omitted).
+ * "GST Registration" has no matching article in GST.json yet—only foreigner-specific and other services.
+ */
+const GST_SERVICE_CHUNKS = {
+  'GST Registration': { whyIndices: [1], bodyIndices: [0, 2, 3] },
+  'GST Return Filing by Accountant': { whyIndices: [5], bodyIndices: [4, 6, 7] },
+  'GST LUT Form': { whyIndices: [9], bodyIndices: [8, 10, 11] },
+  'GST Notice': { bodyIndices: [12, 13, 14] },
+  'GST Annual Return Filing (GSTR-9)': { whyIndices: [16], bodyIndices: [15, 17, 18] },
+  'GST Registration for Foreigners': { whyIndices: [1], bodyIndices: [0, 2, 3] },
+  'GST Amendment': { whyIndices: [24], bodyIndices: [23, 25, 26] },
+  'GST Revocation': { whyIndices: [28], bodyIndices: [27, 29, 30] },
+  'GSTR-10': { whyIndices: [32], bodyIndices: [31, 33, 34] },
+  'Virtual Office + GSTIN': { bodyIndices: [35, 36, 37] },
+}
+
+const hasLeadCta = (markdown = '') => /^(File Now|Apply Now)\b/i.test(markdown.trim())
+
+const buildOrderedServiceChunkMap = (chunks, serviceNames) => {
+  const startIndices = chunks.reduce((acc, chunk, idx) => {
+    if (!chunk?.heading) acc.push(idx)
+    return acc
+  }, [])
+
+  const mapping = {}
+  serviceNames.forEach((serviceName, index) => {
+    const start = startIndices[index]
+    if (start == null) {
+      return
+    }
+
+    const next = startIndices[index + 1] ?? chunks.length
+    const sectionIndices = []
+    for (let i = start; i < next; i += 1) {
+      sectionIndices.push(i)
+    }
+
+    if (sectionIndices.length >= 4 && hasLeadCta(chunks[sectionIndices[1]]?.content)) {
+      mapping[serviceName] = {
+        whyIndices: [sectionIndices[1]],
+        bodyIndices: [sectionIndices[0], ...sectionIndices.slice(2)],
+      }
+      return
+    }
+
+    mapping[serviceName] = { bodyIndices: sectionIndices }
+  })
+
+  return mapping
+}
+
+const INCOME_TAX_SERVICE_CHUNKS = buildOrderedServiceChunkMap(incomeTaxChunks, incomeTaxServices)
+const MCA_SERVICE_CHUNKS = buildOrderedServiceChunkMap(mcaChunks, mcaServices)
 
 const stripInlineBold = (text) => text.replace(/\*\*([^*]+)\*\*/g, '$1')
 
@@ -198,6 +259,22 @@ const buildRegistrationEntry = (serviceName) => {
   }
 }
 
+const buildEntryFromSpec = (chunks, spec, serviceName) => {
+  if (!spec?.bodyIndices?.length) {
+    return emptyEntry(serviceName)
+  }
+
+  const whyParts = (spec.whyIndices ?? []).map((i) => chunks[i]?.content || '')
+  const { whyTitle, whyParagraphs } = parseWhySection(whyParts)
+
+  const base = buildFromChunkIndices(chunks, spec.bodyIndices, serviceName)
+  return {
+    ...base,
+    whyTitle,
+    whyParagraphs,
+  }
+}
+
 const parseStartupSections = () => {
   const parsed = {}
   startupServices.forEach((serviceName) => {
@@ -214,9 +291,51 @@ const parseRegistrationSections = () => {
   return parsed
 }
 
+const buildGstEntry = (serviceName) => {
+  const spec = GST_SERVICE_CHUNKS[serviceName]
+  return buildEntryFromSpec(gstChunks, spec, serviceName)
+}
+
+const parseGstSections = () => {
+  const parsed = {}
+  gstServices.forEach((serviceName) => {
+    parsed[serviceName] = buildGstEntry(serviceName)
+  })
+  return parsed
+}
+
+const buildIncomeTaxEntry = (serviceName) => {
+  const spec = INCOME_TAX_SERVICE_CHUNKS[serviceName]
+  return buildEntryFromSpec(incomeTaxChunks, spec, serviceName)
+}
+
+const parseIncomeTaxSections = () => {
+  const parsed = {}
+  incomeTaxServices.forEach((serviceName) => {
+    parsed[serviceName] = buildIncomeTaxEntry(serviceName)
+  })
+  return parsed
+}
+
+const buildMcaEntry = (serviceName) => {
+  const spec = MCA_SERVICE_CHUNKS[serviceName]
+  return buildEntryFromSpec(mcaChunks, spec, serviceName)
+}
+
+const parseMcaSections = () => {
+  const parsed = {}
+  mcaServices.forEach((serviceName) => {
+    parsed[serviceName] = buildMcaEntry(serviceName)
+  })
+  return parsed
+}
+
 export const serviceContentData = {
   Startup: parseStartupSections(),
   Registration: parseRegistrationSections(),
+  GST: parseGstSections(),
+  'Income Tax': parseIncomeTaxSections(),
+  MCA: parseMcaSections(),
 }
 
 export const getServiceContent = (category, service) => {

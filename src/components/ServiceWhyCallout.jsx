@@ -161,7 +161,7 @@ const RestBlocks = ({ blocks }) => {
           return (
             <ol
               key={key}
-              className="list-decimal space-y-2 pl-5 text-sm leading-relaxed text-blue-100/90 marker:font-semibold marker:text-emerald-300 sm:text-base sm:pl-6"
+              className="list-decimal space-y-2 pl-5 text-sm leading-relaxed text-blue-100/90 marker:font-semibold marker:text-cyan-300 sm:text-base sm:pl-6"
             >
               {block.items.map((item, idx) => (
                 <li key={`${item.num}-${idx}`} className="pl-1">
