@@ -1,3 +1,5 @@
+import { useState } from 'react'
+import emailjs from '@emailjs/browser'
 import Navbar from '../../components/Navbar'
 import Footer from '../../components/Footer'
 import { useTheme } from '../../context/ThemeContext'
@@ -28,6 +30,19 @@ const contactChannels = [
 
 const ContactUs = () => {
   const { isLight } = useTheme()
+  const [formData, setFormData] = useState({
+    name: '',
+    from_email: '',
+    subject: '',
+    message: '',
+    phone: '',
+  })
+  const [isSending, setIsSending] = useState(false)
+  const [feedback, setFeedback] = useState({ type: '', text: '' })
+
+  const serviceId = import.meta.env.VITE_EMAILJS_SERVICE_ID
+  const templateId = import.meta.env.VITE_EMAILJS_TEMPLATE_ID
+  const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY
 
   const pageClass = isLight
     ? 'cw-contact-page min-h-screen bg-linear-to-br from-slate-50 via-white to-indigo-50 text-slate-900'
@@ -65,6 +80,65 @@ const ContactUs = () => {
   const channelTitleClass = isLight ? 'text-xs font-semibold uppercase tracking-[0.18em] text-indigo-700' : 'text-xs font-semibold uppercase tracking-[0.18em] text-cyan-300'
   const channelValueClass = isLight ? 'mt-2 text-base font-semibold text-slate-900' : 'mt-2 text-base font-semibold text-white'
   const channelNoteClass = isLight ? 'mt-1 text-sm text-slate-600' : 'mt-1 text-sm text-slate-300'
+  const feedbackClass = feedback.type === 'success'
+    ? isLight
+      ? 'mt-4 rounded-xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-700'
+      : 'mt-4 rounded-xl border border-emerald-300/20 bg-emerald-500/10 px-4 py-3 text-sm text-emerald-200'
+    : isLight
+      ? 'mt-4 rounded-xl border border-rose-200 bg-rose-50 px-4 py-3 text-sm text-rose-700'
+      : 'mt-4 rounded-xl border border-rose-300/20 bg-rose-500/10 px-4 py-3 text-sm text-rose-200'
+
+  const handleChange = (event) => {
+    const { name, value } = event.target
+    setFormData((prev) => ({ ...prev, [name]: value }))
+  }
+
+  const handleSubmit = async (event) => {
+    event.preventDefault()
+    setFeedback({ type: '', text: '' })
+
+    if (!serviceId || !templateId || !publicKey) {
+      setFeedback({
+        type: 'error',
+        text: 'Email service is not configured. Add EmailJS keys in your .env file.',
+      })
+      return
+    }
+
+    setIsSending(true)
+    try {
+      await emailjs.send(
+        serviceId,
+        templateId,
+        {
+          name: formData.name,
+          from_email: formData.from_email,
+          subject: formData.subject,
+          message: `${formData.message}\n\nPhone: ${formData.phone || 'Not provided'}`,
+        },
+        { publicKey },
+      )
+
+      setFeedback({
+        type: 'success',
+        text: 'Thanks! Your message has been sent. Our team will reach out shortly.',
+      })
+      setFormData({
+        name: '',
+        from_email: '',
+        subject: '',
+        message: '',
+        phone: '',
+      })
+    } catch (error) {
+      setFeedback({
+        type: 'error',
+        text: 'Unable to send your message right now. Please try again in a moment.',
+      })
+    } finally {
+      setIsSending(false)
+    }
+  }
 
   return (
     <>
@@ -93,7 +167,7 @@ const ContactUs = () => {
 
           <section className="py-16 sm:py-20">
             <div className="mx-auto grid w-full max-w-7xl gap-8 px-4 sm:px-6 lg:grid-cols-2 lg:px-8">
-              <form className={formCardClass}>
+              <form className={formCardClass} onSubmit={handleSubmit}>
                 <h2 className={`text-2xl font-semibold ${isLight ? 'text-slate-900' : 'text-white'}`}>Get in touch</h2>
                 <p className={formSubClass}>
                   We typically respond within one business day.
@@ -105,21 +179,59 @@ const ContactUs = () => {
                   <span className={serviceTagClass}>MCA Compliance</span>
                 </div>
                 <div className="mt-6 space-y-4">
-                  <input type="text" placeholder="Full name" className={inputClass} />
-                  <input type="email" placeholder="Business email" className={inputClass} />
-                  <input type="text" placeholder="Phone number" className={inputClass} />
+                  <input
+                    type="text"
+                    name="name"
+                    value={formData.name}
+                    onChange={handleChange}
+                    placeholder="Full name"
+                    className={inputClass}
+                    required
+                  />
+                  <input
+                    type="email"
+                    name="from_email"
+                    value={formData.from_email}
+                    onChange={handleChange}
+                    placeholder="Business email"
+                    className={inputClass}
+                    required
+                  />
+                  <input
+                    type="text"
+                    name="phone"
+                    value={formData.phone}
+                    onChange={handleChange}
+                    placeholder="Phone number"
+                    className={inputClass}
+                  />
+                  <input
+                    type="text"
+                    name="subject"
+                    value={formData.subject}
+                    onChange={handleChange}
+                    placeholder="Subject"
+                    className={inputClass}
+                    required
+                  />
                   <textarea
                     rows={4}
+                    name="message"
+                    value={formData.message}
+                    onChange={handleChange}
                     placeholder="Tell us what you need"
                     className={`${inputClass} resize-none`}
+                    required
                   />
                   <button
-                    type="button"
+                    type="submit"
                     className={primaryBtnClass}
+                    disabled={isSending}
                   >
-                    Submit Request
+                    {isSending ? 'Sending...' : 'Submit Request'}
                   </button>
                 </div>
+                {feedback.text ? <p className={feedbackClass}>{feedback.text}</p> : null}
               </form>
 
               <div className={infoCardClass}>
