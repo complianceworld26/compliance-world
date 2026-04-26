@@ -7,6 +7,7 @@ const MotionDiv = motionNamespace.div
 import AuthLayout from '../../components/AuthLayout'
 import { GoogleSignInButton } from '../../components/GoogleSignInButton'
 import { useAuth } from '../../context/AuthContext'
+import { useConsumeGoogleAuthSessionError } from '../../hooks/useConsumeGoogleAuthSessionError'
 import { formatAuthError } from '../../utils/authErrors'
 
 const inputClass =
@@ -118,6 +119,8 @@ const Login = () => {
   const [error, setError] = useState('')
   const [info, setInfo] = useState('')
   const [busy, setBusy] = useState(false)
+
+  useConsumeGoogleAuthSessionError(setError)
 
   const handleChange = (e) => {
     const { name, value } = e.target
