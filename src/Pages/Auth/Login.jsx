@@ -112,7 +112,7 @@ const Login = () => {
   const background = location.state?.background
   const isModal = Boolean(background)
 
-  const { signInWithEmail, signInWithGoogle, isFirebaseConfigured: firebaseReady } = useAuth()
+  const { user, loading: authLoading, signInWithEmail, signInWithGoogle, isFirebaseConfigured: firebaseReady } = useAuth()
 
   const [form, setForm] = useState({ email: '', password: '' })
   const [error, setError] = useState('')
@@ -135,6 +135,13 @@ const Login = () => {
     }
   }, [background, isModal, navigate])
 
+  useEffect(() => {
+    if (authLoading) return
+    if (user) {
+      finishSuccess()
+    }
+  }, [user, authLoading, finishSuccess])
+
   const handleSubmit = async (e) => {
     e.preventDefault()
     setError('')
@@ -156,10 +163,8 @@ const Login = () => {
     setBusy(true)
     try {
       await signInWithGoogle()
-      finishSuccess()
     } catch (err) {
       setError(formatAuthError(err?.code))
-    } finally {
       setBusy(false)
     }
   }

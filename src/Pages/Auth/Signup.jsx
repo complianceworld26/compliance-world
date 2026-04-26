@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { motion as motionNamespace } from 'framer-motion'
 import { useLocation, useNavigate } from 'react-router-dom'
 
@@ -14,7 +14,7 @@ const inputClass =
 const Signup = () => {
   const location = useLocation()
   const navigate = useNavigate()
-  const { signUpWithEmail, signInWithGoogle, isFirebaseConfigured: firebaseReady } = useAuth()
+  const { user, loading: authLoading, signUpWithEmail, signInWithGoogle, isFirebaseConfigured: firebaseReady } = useAuth()
 
   const [form, setForm] = useState({
     name: '',
@@ -24,6 +24,13 @@ const Signup = () => {
   })
   const [error, setError] = useState('')
   const [busy, setBusy] = useState(false)
+
+  useEffect(() => {
+    if (authLoading) return
+    if (user) {
+      navigate('/', { replace: true })
+    }
+  }, [user, authLoading, navigate])
 
   const handleChange = (e) => {
     const { name, value } = e.target
@@ -54,10 +61,8 @@ const Signup = () => {
     setBusy(true)
     try {
       await signInWithGoogle()
-      navigate('/', { replace: true })
     } catch (err) {
       setError(formatAuthError(err?.code))
-    } finally {
       setBusy(false)
     }
   }

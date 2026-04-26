@@ -1,6 +1,6 @@
 /* eslint-disable react-refresh/only-export-components -- AuthProvider + useAuth */
 import { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react'
-import { signInWithPopup } from 'firebase/auth'
+import { getRedirectResult, signInWithRedirect } from 'firebase/auth'
 import { firebaseLogin, getMe, login, logout, signup } from '../lib/authApi'
 import { auth, googleProvider, isFirebaseConfigured } from '../lib/firebase'
 
@@ -12,19 +12,37 @@ export function AuthProvider({ children }) {
 
   useEffect(() => {
     let mounted = true
-    getMe()
-      .then((data) => {
-        if (!mounted) return
-        setUser(data?.user ?? null)
-      })
-      .catch(() => {
-        if (!mounted) return
-        setUser(null)
-      })
-      .finally(() => {
-        if (!mounted) return
-        setLoading(false)
-      })
+
+    async function init() {
+      setLoading(true)
+      try {
+        if (auth) {
+          const redirectResult = await getRedirectResult(auth)
+          if (!mounted) return
+          if (redirectResult?.user) {
+            const idToken = await redirectResult.user.getIdToken()
+            const data = await firebaseLogin({ idToken })
+            if (!mounted) return
+            setUser(data?.user ?? null)
+            if (mounted) setLoading(false)
+            return
+          }
+        }
+      } catch (err) {
+        console.error('Google sign-in (redirect) could not complete:', err)
+      }
+
+      try {
+        const data = await getMe()
+        if (mounted) setUser(data?.user ?? null)
+      } catch {
+        if (mounted) setUser(null)
+      } finally {
+        if (mounted) setLoading(false)
+      }
+    }
+
+    init()
     return () => {
       mounted = false
     }
@@ -44,16 +62,17 @@ export function AuthProvider({ children }) {
     setUser(data?.user ?? null)
   }, [])
 
+  /**
+   * Full-page redirect (not popup) — avoids Cross-Origin-Opener-Policy breaking signInWithPopup on some hosts.
+   * After Google, the user returns to this app; init() runs getRedirectResult and exchanges the ID token with the API.
+   */
   const signInWithGoogle = useCallback(async () => {
     if (!auth || !googleProvider) {
       const err = new Error('Firebase client is not configured.')
       err.code = 'app/firebase-not-configured'
       throw err
     }
-    const credential = await signInWithPopup(auth, googleProvider)
-    const idToken = await credential.user.getIdToken()
-    const data = await firebaseLogin({ idToken })
-    setUser(data?.user ?? null)
+    await signInWithRedirect(auth, googleProvider)
   }, [])
 
   const signOut = useCallback(async () => {
