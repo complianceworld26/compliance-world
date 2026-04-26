@@ -2,6 +2,7 @@ import { NavLink, useLocation } from 'react-router-dom'
 import logo from '@/Assets/logo.png'
 import { serviceCategories } from '../data/servicesData'
 import { useTheme } from '../context/ThemeContext'
+import { useAuth } from '../context/AuthContext'
 
 const SunIcon = () => (
   <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="1.75" aria-hidden>
@@ -19,6 +20,7 @@ const MoonIcon = () => (
 const Navbar = () => {
   const location = useLocation()
   const { isLight, toggleTheme } = useTheme()
+  const { user, loading: authLoading, signOut } = useAuth()
 
   const headerClass = isLight
     ? 'sticky top-0 z-50 border-b border-slate-200/80 bg-white/90 shadow-sm backdrop-blur-md'
@@ -69,6 +71,14 @@ const Navbar = () => {
   const loginClass = isLight
     ? 'rounded-xl bg-slate-900 px-4 py-2 text-xs font-semibold text-white shadow-md shadow-slate-900/15 transition-all duration-200 hover:bg-indigo-700 sm:px-5 sm:text-sm'
     : 'rounded-xl bg-white px-4 py-2 text-xs font-semibold text-slate-900 shadow-lg shadow-black/35 transition-all duration-200 hover:bg-slate-100 sm:px-5 sm:text-sm'
+
+  const signOutClass = isLight
+    ? 'rounded-xl border border-slate-300 bg-white px-3 py-2 text-xs font-semibold text-slate-800 transition-all duration-200 hover:border-slate-400 hover:bg-slate-50 sm:px-4 sm:text-sm'
+    : 'rounded-xl border border-white/15 bg-white/5 px-3 py-2 text-xs font-semibold text-white transition-all duration-200 hover:border-cyan-400/35 hover:bg-white/10 sm:px-4 sm:text-sm'
+
+  const userLabelClass = isLight
+    ? 'hidden max-w-[100px] truncate text-xs font-medium text-slate-700 sm:inline sm:max-w-[150px] lg:max-w-[200px]'
+    : 'hidden max-w-[100px] truncate text-xs font-medium text-slate-200 sm:inline sm:max-w-[150px] lg:max-w-[200px]'
 
   return (
     <header className={headerClass}>
@@ -143,9 +153,27 @@ const Navbar = () => {
           >
             {isLight ? <MoonIcon /> : <SunIcon />}
           </button>
-          <NavLink to="/login" state={{ background: location }} className={loginClass}>
-            Log in
-          </NavLink>
+          {authLoading ? (
+            <span
+              className={`rounded-xl px-3 py-2 text-xs font-medium sm:text-sm ${isLight ? 'text-slate-500' : 'text-slate-500'}`}
+              aria-hidden
+            >
+              …
+            </span>
+          ) : user ? (
+            <div className="flex max-w-[min(100%,280px)] items-center gap-2 sm:gap-3">
+              <span className={userLabelClass} title={user.email ?? ''}>
+                {user.displayName || user.email?.split('@')[0] || 'Account'}
+              </span>
+              <button type="button" onClick={() => signOut()} className={signOutClass}>
+                Sign out
+              </button>
+            </div>
+          ) : (
+            <NavLink to="/login" state={{ background: location }} className={loginClass}>
+              Log in
+            </NavLink>
+          )}
         </div>
       </nav>
     </header>

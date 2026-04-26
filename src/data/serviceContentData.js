@@ -1,4 +1,6 @@
+import complianceChunks from './Txt content/Compliance.json'
 import gstChunks from './Txt content/GST.json'
+import globalChunks from './Txt content/Global.json'
 import incomeTaxChunks from './Txt content/Incometax.json'
 import mcaChunks from './Txt content/MCA.json'
 import registrationChunks from './Txt content/Registration.json'
@@ -11,6 +13,8 @@ const registrationServices =
 const gstServices = serviceCategories.find((item) => item.label === 'GST')?.options ?? []
 const incomeTaxServices = serviceCategories.find((item) => item.label === 'Income Tax')?.options ?? []
 const mcaServices = serviceCategories.find((item) => item.label === 'MCA')?.options ?? []
+const complianceServices = serviceCategories.find((item) => item.label === 'Compliance')?.options ?? []
+const globalServices = serviceCategories.find((item) => item.label === 'Global')?.options ?? []
 
 /**
  * startup.json: intro, long article ("Simple packages…"), FAQ.
@@ -117,6 +121,8 @@ const buildOrderedServiceChunkMap = (chunks, serviceNames) => {
 
 const INCOME_TAX_SERVICE_CHUNKS = buildOrderedServiceChunkMap(incomeTaxChunks, incomeTaxServices)
 const MCA_SERVICE_CHUNKS = buildOrderedServiceChunkMap(mcaChunks, mcaServices)
+const COMPLIANCE_SERVICE_CHUNKS = buildOrderedServiceChunkMap(complianceChunks, complianceServices)
+const GLOBAL_SERVICE_CHUNKS = buildOrderedServiceChunkMap(globalChunks, globalServices)
 
 const stripInlineBold = (text) => text.replace(/\*\*([^*]+)\*\*/g, '$1')
 
@@ -330,12 +336,40 @@ const parseMcaSections = () => {
   return parsed
 }
 
+const buildComplianceEntry = (serviceName) => {
+  const spec = COMPLIANCE_SERVICE_CHUNKS[serviceName]
+  return buildEntryFromSpec(complianceChunks, spec, serviceName)
+}
+
+const parseComplianceSections = () => {
+  const parsed = {}
+  complianceServices.forEach((serviceName) => {
+    parsed[serviceName] = buildComplianceEntry(serviceName)
+  })
+  return parsed
+}
+
+const buildGlobalEntry = (serviceName) => {
+  const spec = GLOBAL_SERVICE_CHUNKS[serviceName]
+  return buildEntryFromSpec(globalChunks, spec, serviceName)
+}
+
+const parseGlobalSections = () => {
+  const parsed = {}
+  globalServices.forEach((serviceName) => {
+    parsed[serviceName] = buildGlobalEntry(serviceName)
+  })
+  return parsed
+}
+
 export const serviceContentData = {
   Startup: parseStartupSections(),
   Registration: parseRegistrationSections(),
   GST: parseGstSections(),
   'Income Tax': parseIncomeTaxSections(),
   MCA: parseMcaSections(),
+  Compliance: parseComplianceSections(),
+  Global: parseGlobalSections(),
 }
 
 export const getServiceContent = (category, service) => {
