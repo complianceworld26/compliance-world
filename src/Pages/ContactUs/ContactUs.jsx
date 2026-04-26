@@ -111,10 +111,11 @@ const ContactUs = () => {
         serviceId,
         templateId,
         {
-          name: formData.name,
-          from_email: formData.from_email,
-          subject: formData.subject,
-          message: `${formData.message}\n\nPhone: ${formData.phone || 'Not provided'}`,
+          name: formData.name.trim(),
+          from_email: formData.from_email.trim(),
+          phone: formData.phone.trim() || 'Not provided',
+          subject: formData.subject.trim(),
+          message: formData.message.trim(),
         },
         { publicKey },
       )
