@@ -5,11 +5,13 @@ import './index.css'
 import App from './App.jsx'
 import { ThemeProvider } from './context/ThemeContext.jsx'
 import { AuthProvider } from './context/AuthContext.jsx'
+import { GtagRouteTracker } from './components/GtagRouteTracker.jsx'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <ThemeProvider>
       <BrowserRouter>
+        <GtagRouteTracker />
         <AuthProvider>
           <App />
         </AuthProvider>
