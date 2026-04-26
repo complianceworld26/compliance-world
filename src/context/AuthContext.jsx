@@ -1,8 +1,8 @@
 /* eslint-disable react-refresh/only-export-components -- AuthProvider + useAuth */
 import { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react'
-import { getRedirectResult, signInWithRedirect } from 'firebase/auth'
+import { signInWithRedirect } from 'firebase/auth'
 import { firebaseLogin, getMe, login, logout, signup } from '../lib/authApi'
-import { auth, googleProvider, isFirebaseConfigured } from '../lib/firebase'
+import { auth, getGoogleRedirectResultOnce, googleProvider, isFirebaseConfigured } from '../lib/firebase'
 
 const AuthContext = createContext(null)
 
@@ -17,7 +17,7 @@ export function AuthProvider({ children }) {
       setLoading(true)
       try {
         if (auth) {
-          const redirectResult = await getRedirectResult(auth)
+          const redirectResult = await getGoogleRedirectResultOnce(auth)
           if (!mounted) return
           if (redirectResult?.user) {
             const idToken = await redirectResult.user.getIdToken()
@@ -30,6 +30,12 @@ export function AuthProvider({ children }) {
         }
       } catch (err) {
         console.error('Google sign-in (redirect) could not complete:', err)
+        try {
+          const code = err?.code || 'server/error'
+          sessionStorage.setItem('cw_google_auth_error', JSON.stringify({ code }))
+        } catch {
+          /* ignore */
+        }
       }
 
       try {

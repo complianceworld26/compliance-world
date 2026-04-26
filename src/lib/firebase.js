@@ -1,5 +1,19 @@
 import { initializeApp, getApps } from 'firebase/app'
-import { getAuth, GoogleAuthProvider } from 'firebase/auth'
+import { getAuth, getRedirectResult, GoogleAuthProvider } from 'firebase/auth'
+
+/** Firebase redirect result can only be read once; React Strict Mode runs effects twice in dev — share one promise. */
+let pendingRedirectResultPromise = null
+
+export function getGoogleRedirectResultOnce(authInstance) {
+  if (!authInstance) return Promise.resolve(null)
+  if (!pendingRedirectResultPromise) {
+    pendingRedirectResultPromise = getRedirectResult(authInstance).catch((err) => {
+      pendingRedirectResultPromise = null
+      throw err
+    })
+  }
+  return pendingRedirectResultPromise
+}
 
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
@@ -25,4 +39,10 @@ const app = isFirebaseConfigured
 
 export const auth = app ? getAuth(app) : null
 
-export const googleProvider = app ? new GoogleAuthProvider() : null
+export const googleProvider = app
+  ? (() => {
+      const p = new GoogleAuthProvider()
+      p.setCustomParameters({ prompt: 'select_account' })
+      return p
+    })()
+  : null

@@ -6,6 +6,7 @@ const MotionButton = motionNamespace.button
 import AuthLayout from '../../components/AuthLayout'
 import { GoogleSignInButton } from '../../components/GoogleSignInButton'
 import { useAuth } from '../../context/AuthContext'
+import { useConsumeGoogleAuthSessionError } from '../../hooks/useConsumeGoogleAuthSessionError'
 import { formatAuthError } from '../../utils/authErrors'
 
 const inputClass =
@@ -24,6 +25,8 @@ const Signup = () => {
   })
   const [error, setError] = useState('')
   const [busy, setBusy] = useState(false)
+
+  useConsumeGoogleAuthSessionError(setError)
 
   useEffect(() => {
     if (authLoading) return
