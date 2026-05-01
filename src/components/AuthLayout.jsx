@@ -21,7 +21,7 @@ const AuthLayout = ({ title, subtitle, children, alternateLabel, alternateTo, al
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, ease: 'easeOut' }}
-            className="relative w-full max-w-md"
+            className="relative w-full min-w-0 max-w-md"
           >
             <p className="text-center text-xs font-semibold uppercase tracking-[0.2em] text-cyan-300/90">Account</p>
             <h1 className="mt-2 text-center text-3xl font-semibold tracking-tight sm:text-4xl">{title}</h1>

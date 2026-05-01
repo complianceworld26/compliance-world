@@ -162,7 +162,7 @@ const ServiceDetail = () => {
         >
           <div className="cw-service-hero-radials pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(56,189,248,0.18),transparent_34%),radial-gradient(circle_at_top_left,rgba(99,102,241,0.14),transparent_40%)]" />
           <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
-            <nav className="cw-breadcrumb mb-6 flex flex-wrap items-center gap-2 text-sm text-blue-100/90">
+            <nav className="cw-breadcrumb mb-6 flex flex-wrap items-center gap-x-2 gap-y-1 text-xs text-blue-100/90 sm:text-sm">
               <NavLink to="/" className="font-medium transition-colors hover:text-white">
                 Compliance World
               </NavLink>
@@ -176,7 +176,7 @@ const ServiceDetail = () => {
             <div className="grid gap-8 lg:grid-cols-[1.2fr_0.8fr] lg:items-end">
               <div>
                 <p className="text-xs uppercase tracking-[0.2em] text-indigo-300">{category}</p>
-                <h1 className="mt-3 text-3xl font-semibold tracking-tight sm:text-5xl">
+                <h1 className="mt-3 break-words text-2xl font-semibold tracking-tight sm:text-4xl lg:text-5xl">
                   {content?.heroTitle || service}
                 </h1>
                 <p className="mt-4 max-w-3xl text-sm text-blue-100 sm:text-base">
@@ -207,7 +207,7 @@ const ServiceDetail = () => {
                 Choose the package that fits your {service.toLowerCase()} requirements.
               </p>
 
-              <div className="mt-6 grid gap-5 xl:grid-cols-3">
+              <div className="mt-6 grid gap-5 md:grid-cols-2 xl:grid-cols-3">
                 {activePackages.map((pkg, index) => (
                   <motion.article
                     key={pkg.name}

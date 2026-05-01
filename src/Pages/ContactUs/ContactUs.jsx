@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import emailjs from '@emailjs/browser'
 import Navbar from '../../components/Navbar'
 import Footer from '../../components/Footer'
@@ -50,6 +50,12 @@ const ContactUs = () => {
   const serviceId = import.meta.env.VITE_EMAILJS_SERVICE_ID
   const templateId = import.meta.env.VITE_EMAILJS_TEMPLATE_ID
   const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY
+
+  useEffect(() => {
+    if (publicKey) {
+      emailjs.init({ publicKey })
+    }
+  }, [publicKey])
 
   const pageClass = isLight
     ? 'cw-contact-page min-h-screen bg-linear-to-br from-slate-50 via-white to-indigo-50 text-slate-900'
@@ -117,18 +123,29 @@ const ContactUs = () => {
 
     setIsSending(true)
     try {
-      await emailjs.send(
-        serviceId,
-        templateId,
-        {
-          name: formData.name.trim(),
-          from_email: formData.from_email.trim(),
-          phone: formData.phone.trim() || 'Not provided',
-          subject: formData.subject.trim(),
-          message: formData.message.trim(),
-        },
-        { publicKey },
-      )
+      const name = formData.name.trim()
+      const email = formData.from_email.trim()
+      const phone = formData.phone.trim() || 'Not provided'
+      const subject = formData.subject.trim()
+      const message = formData.message.trim()
+
+      const templateParams = {
+        name,
+        from_name: name,
+        user_name: name,
+        email,
+        from_email: email,
+        user_email: email,
+        reply_to: email,
+        phone,
+        phone_number: phone,
+        subject,
+        title: subject,
+        message,
+        text: message,
+      }
+
+      await emailjs.send(serviceId, templateId, templateParams, { publicKey })
 
       setFeedback({
         type: 'success',
@@ -142,10 +159,27 @@ const ContactUs = () => {
         phone: '',
       })
     } catch (error) {
+      let detail = 'Unable to send your message right now. Please try again in a moment.'
+      if (error && typeof error === 'object') {
+        if ('text' in error && error.text) {
+          try {
+            const parsed = JSON.parse(error.text)
+            detail = parsed?.message || parsed?.error || error.text
+          } catch {
+            detail = String(error.text)
+          }
+        } else if (error instanceof Error && error.message) {
+          detail = error.message
+        }
+      }
+      if (detail.length > 220) {
+        detail = `${detail.slice(0, 217)}…`
+      }
       setFeedback({
         type: 'error',
-        text: 'Unable to send your message right now. Please try again in a moment.',
+        text: detail,
       })
+      console.error('[ContactUs] EmailJS send failed:', error)
     } finally {
       setIsSending(false)
     }
@@ -162,7 +196,9 @@ const ContactUs = () => {
           <section className={heroClass}>
             <div className={heroGlowClass} />
             <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
-              <h1 className="max-w-4xl text-4xl font-bold sm:text-5xl">Get expert help for your business compliance journey</h1>
+              <h1 className="max-w-4xl break-words text-3xl font-bold leading-tight sm:text-4xl sm:text-5xl">
+                Get expert help for your business compliance journey
+              </h1>
               <p className={heroSubClass}>
                 Tell us your requirement and our team will recommend the right service path, pricing model, and timeline.
               </p>

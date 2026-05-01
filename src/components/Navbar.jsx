@@ -23,12 +23,25 @@ const MoonIcon = () => (
   </svg>
 )
 
+const MenuIcon = () => (
+  <svg viewBox="0 0 24 24" className="h-6 w-6" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden>
+    <path d="M4 6h16M4 12h16M4 18h16" strokeLinecap="round" />
+  </svg>
+)
+
+const CloseIcon = () => (
+  <svg viewBox="0 0 24 24" className="h-6 w-6" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden>
+    <path d="M18 6 6 18M6 6l12 12" strokeLinecap="round" />
+  </svg>
+)
+
 const Navbar = () => {
   const location = useLocation()
   const { isLight, toggleTheme } = useTheme()
   const { user, loading: authLoading, signOut } = useAuth()
 
   const [openCategoryLabel, setOpenCategoryLabel] = useState(null)
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [menuCoords, setMenuCoords] = useState({ top: 0, left: 0, width: CATEGORY_MENU_WIDTH_PX })
   const closeMenuTimerRef = useRef(null)
 
@@ -61,7 +74,22 @@ const Navbar = () => {
 
   useEffect(() => {
     setOpenCategoryLabel(null)
+    setMobileMenuOpen(false)
   }, [location.pathname, location.search])
+
+  useEffect(() => {
+    if (!mobileMenuOpen) return
+    const onKey = (e) => {
+      if (e.key === 'Escape') setMobileMenuOpen(false)
+    }
+    document.addEventListener('keydown', onKey)
+    const prevOverflow = document.body.style.overflow
+    document.body.style.overflow = 'hidden'
+    return () => {
+      document.removeEventListener('keydown', onKey)
+      document.body.style.overflow = prevOverflow
+    }
+  }, [mobileMenuOpen])
 
   useEffect(() => {
     const close = () => setOpenCategoryLabel(null)
@@ -135,6 +163,16 @@ const Navbar = () => {
     ? 'hidden max-w-[100px] truncate text-xs font-medium text-slate-700 sm:inline sm:max-w-[150px] lg:max-w-[200px]'
     : 'hidden max-w-[100px] truncate text-xs font-medium text-slate-200 sm:inline sm:max-w-[150px] lg:max-w-[200px]'
 
+  const mobileLinkClass = isLight
+    ? 'block rounded-xl px-3 py-3 text-sm font-medium text-slate-800 transition-colors hover:bg-slate-100'
+    : 'block rounded-xl px-3 py-3 text-sm font-medium text-white transition-colors hover:bg-white/10'
+
+  const mobileNestedLinkClass = isLight
+    ? 'block rounded-lg px-3 py-2 text-sm text-slate-700 hover:bg-slate-50'
+    : 'block rounded-lg px-3 py-2 text-sm text-slate-200 hover:bg-white/5'
+
+  const mobileDetailsBorder = isLight ? 'border-slate-200' : 'border-white/10'
+
   const searchCategory = new URLSearchParams(location.search).get('category')
 
   const isCategoryNavActive = (category) => {
@@ -146,10 +184,10 @@ const Navbar = () => {
 
   return (
     <header className={headerClass}>
-      <nav className="mx-auto flex h-16 w-full max-w-7xl items-center gap-3 px-4 sm:gap-4 sm:px-6 lg:gap-4 lg:px-8">
-        <NavLink to="/" className={`shrink-0 ${brandClass}`}>
+      <nav className="mx-auto flex h-16 w-full min-w-0 max-w-7xl items-center gap-2 px-4 sm:gap-4 sm:px-6 lg:gap-4 lg:px-8">
+        <NavLink to="/" className={`min-w-0 max-w-[min(100%,11rem)] shrink sm:max-w-none ${brandClass}`}>
           <img src={logo} alt="" width={40} height={40} className={brandLogoClass} aria-hidden />
-          <span>Compliance World</span>
+          <span className="truncate sm:whitespace-normal">Compliance World</span>
         </NavLink>
 
         <div className={navRailClass}>
@@ -223,7 +261,7 @@ const Navbar = () => {
           </div>
         </div>
 
-        <div className="flex shrink-0 flex-wrap items-center justify-end gap-2">
+        <div className="flex min-w-0 shrink-0 flex-wrap items-center justify-end gap-1.5 sm:gap-2">
           {authLoading ? (
             <span
               className={`rounded-xl px-3 py-2 text-xs font-medium sm:text-sm ${isLight ? 'text-slate-500' : 'text-slate-500'}`}
@@ -252,6 +290,16 @@ const Navbar = () => {
             aria-label={isLight ? 'Switch to dark mode' : 'Switch to light mode'}
           >
             {isLight ? <MoonIcon /> : <SunIcon />}
+          </button>
+          <button
+            type="button"
+            className={`${toggleBtnClass} lg:hidden`}
+            onClick={() => setMobileMenuOpen(true)}
+            aria-label="Open menu"
+            aria-expanded={mobileMenuOpen}
+            aria-controls="cw-mobile-nav"
+          >
+            <MenuIcon />
           </button>
         </div>
       </nav>
@@ -289,6 +337,103 @@ const Navbar = () => {
                     View all {openCategory.label}
                   </NavLink>
                 </div>
+              </div>
+            </div>
+          </div>,
+          document.body,
+        )}
+
+      {mobileMenuOpen &&
+        createPortal(
+          <div className="fixed inset-0 z-200 lg:hidden" role="presentation">
+            <button
+              type="button"
+              className="absolute inset-0 bg-slate-950/55 backdrop-blur-sm"
+              aria-label="Close menu"
+              onClick={() => setMobileMenuOpen(false)}
+            />
+            <div
+              id="cw-mobile-nav"
+              role="dialog"
+              aria-modal="true"
+              aria-label="Site navigation"
+              className={`absolute inset-y-0 right-0 flex w-[min(100vw-2rem,20rem)] max-w-full flex-col border-l shadow-2xl ${
+                isLight ? 'border-slate-200 bg-white' : 'border-white/10 bg-slate-950'
+              }`}
+            >
+              <div
+                className={`flex items-center justify-between border-b px-4 py-3 ${isLight ? 'border-slate-200' : 'border-white/10'}`}
+              >
+                <span className={`text-sm font-semibold ${isLight ? 'text-slate-900' : 'text-white'}`}>Menu</span>
+                <button
+                  type="button"
+                  className={toggleBtnClass}
+                  onClick={() => setMobileMenuOpen(false)}
+                  aria-label="Close menu"
+                >
+                  <CloseIcon />
+                </button>
+              </div>
+              <div className="flex-1 overflow-y-auto overscroll-y-contain px-2 py-3 pb-[max(1rem,env(safe-area-inset-bottom,0px))]">
+                <NavLink to="/" onClick={() => setMobileMenuOpen(false)} className={mobileLinkClass}>
+                  Home
+                </NavLink>
+                {serviceCategories.map((category) => (
+                  <details key={category.label} className={`border-b ${mobileDetailsBorder}`}>
+                    <summary
+                      className={`flex cursor-pointer list-none items-center justify-between gap-2 px-2 py-3 text-sm font-semibold [&::-webkit-details-marker]:hidden ${
+                        isLight ? 'text-slate-900' : 'text-white'
+                      }`}
+                    >
+                      {category.label}
+                      <span className="text-[10px] opacity-70 transition-transform duration-200 group-open:rotate-180">
+                        ▼
+                      </span>
+                    </summary>
+                    <div
+                      className={`space-y-0.5 border-t px-1 pb-3 pt-1 ${isLight ? 'border-slate-100' : 'border-white/10'}`}
+                    >
+                      {category.options.map((option) => (
+                        <NavLink
+                          key={`${category.label}-${option}`}
+                          to={getServiceDetailPath(category.label, option)}
+                          onClick={() => setMobileMenuOpen(false)}
+                          className={mobileNestedLinkClass}
+                        >
+                          {option}
+                        </NavLink>
+                      ))}
+                      <NavLink
+                        to={`/services?category=${encodeURIComponent(category.label)}`}
+                        onClick={() => setMobileMenuOpen(false)}
+                        className={`mt-2 block px-3 py-2 text-xs font-semibold ${isLight ? 'text-indigo-700' : 'text-cyan-300'}`}
+                      >
+                        View all {category.label}
+                      </NavLink>
+                    </div>
+                  </details>
+                ))}
+                <NavLink
+                  to="/services"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className={mobileLinkClass}
+                >
+                  All services
+                </NavLink>
+                <NavLink
+                  to="/about-us"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className={mobileLinkClass}
+                >
+                  About Us
+                </NavLink>
+                <NavLink
+                  to="/contact-us"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className={mobileLinkClass}
+                >
+                  Contact
+                </NavLink>
               </div>
             </div>
           </div>,

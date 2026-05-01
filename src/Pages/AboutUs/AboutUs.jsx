@@ -57,7 +57,9 @@ const AboutUs = () => {
   const eyebrowClass = isLight
     ? 'text-xs font-semibold uppercase tracking-[0.24em] text-indigo-700'
     : 'text-xs font-semibold uppercase tracking-[0.24em] text-cyan-300'
-  const heroTitleClass = isLight ? 'mt-4 text-4xl font-bold tracking-tight text-slate-900 sm:text-5xl' : 'mt-4 text-4xl font-bold tracking-tight text-white sm:text-5xl'
+  const heroTitleClass = isLight
+    ? 'mt-4 break-words text-3xl font-bold tracking-tight text-slate-900 sm:text-5xl'
+    : 'mt-4 break-words text-3xl font-bold tracking-tight text-white sm:text-5xl'
   const heroBodyClass = isLight ? 'mt-5 text-base text-slate-600 sm:text-lg' : 'mt-5 text-base text-blue-100/90 sm:text-lg'
   const statsCardClass = isLight
     ? 'rounded-2xl border border-slate-200 bg-white p-5 shadow-lg shadow-slate-900/5'

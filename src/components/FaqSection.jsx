@@ -79,7 +79,7 @@ const FaqSection = () => {
                   onClick={() => setOpen(isOpen ? -1 : i)}
                   aria-expanded={isOpen}
                 >
-                  <span className="text-sm font-semibold text-white sm:text-base">{item.q}</span>
+                  <span className="min-w-0 flex-1 pr-2 text-sm font-semibold text-white sm:text-base">{item.q}</span>
                   <span
                     className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full border text-lg leading-none transition ${
                       isOpen

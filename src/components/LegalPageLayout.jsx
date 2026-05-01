@@ -32,8 +32,8 @@ const LegalPageLayout = ({ title, lastUpdated, children }) => {
     ? 'text-xs font-semibold uppercase tracking-[0.24em] text-indigo-700'
     : 'text-xs font-semibold uppercase tracking-[0.24em] text-cyan-300'
   const titleClass = isLight
-    ? 'mt-3 text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl'
-    : 'mt-3 text-3xl font-bold tracking-tight text-white sm:text-4xl'
+    ? 'mt-3 break-words text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl'
+    : 'mt-3 break-words text-3xl font-bold tracking-tight text-white sm:text-4xl'
   const metaClass = isLight ? 'mt-4 text-sm text-slate-600' : 'mt-4 text-sm text-blue-100/85'
   const articleClass = 'mx-auto max-w-3xl px-4 py-12 sm:px-6 lg:px-8'
 
