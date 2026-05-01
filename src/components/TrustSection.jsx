@@ -100,7 +100,7 @@ const TrustSection = () => {
           <p className="mx-auto mt-3 max-w-xl text-center text-sm text-slate-400 sm:text-base">
             Teams that need velocity with governance — without sacrificing sleep.
           </p>
-          <div className="trust-quotes mt-12 grid gap-6 lg:grid-cols-3">
+          <div className="trust-quotes mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {testimonials.map((item) => (
               <article
                 key={item.name}

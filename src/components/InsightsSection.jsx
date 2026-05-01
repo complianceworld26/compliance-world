@@ -97,7 +97,7 @@ const InsightsSection = () => {
           </NavLink>
         </div>
 
-        <div ref={gridRef} className="mt-12 grid gap-6 lg:grid-cols-3">
+        <div ref={gridRef} className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {posts.map((post) => (
             <article
               key={post.title}

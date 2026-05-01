@@ -63,15 +63,15 @@ const Services = () => {
 
           <div className="relative mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
             <p className="text-xs font-semibold uppercase tracking-[0.2em] text-cyan-300/90">Services</p>
-            <h1 className="mt-3 text-4xl font-semibold tracking-tight text-white sm:text-5xl">
+            <h1 className="mt-3 break-words text-3xl font-semibold tracking-tight text-white sm:text-5xl">
               All compliance services in one place
             </h1>
             <p className="mt-4 max-w-3xl text-base text-slate-400 sm:text-lg">
               Browse every main service category and quickly discover related sub-services for your business.
             </p>
             <div className="mt-8 max-w-xl rounded-2xl border border-white/10 bg-white/5 p-2 backdrop-blur-sm">
-              <div className="flex items-center rounded-xl border border-white/10 bg-white/5 px-3 py-1.5">
-                <span className="mr-2 text-sm text-slate-500">Search</span>
+              <div className="flex min-w-0 flex-col gap-1 rounded-xl border border-white/10 bg-white/5 px-3 py-2 sm:flex-row sm:items-center sm:gap-0 sm:py-1.5">
+                <span className="shrink-0 text-xs font-medium text-slate-500 sm:mr-2 sm:text-sm">Search</span>
                 <input
                   type="text"
                   value={search}
@@ -97,10 +97,10 @@ const Services = () => {
                     transition={{ duration: 0.45, delay: Math.min(index * 0.04, 0.28), ease: 'easeOut' }}
                     className="mb-6 break-inside-avoid rounded-2xl border border-white/10 bg-white/5 p-6 shadow-lg shadow-slate-950/20 transition duration-300 hover:border-white/20 hover:bg-white/10"
                   >
-                    <div className="mb-4 flex items-start justify-between gap-3 border-b border-white/10 pb-4">
+                    <div className="mb-4 flex min-w-0 items-start justify-between gap-3 border-b border-white/10 pb-4">
                       <NavLink
                         to={getServiceDetailPath(category.label, category.options[0] || category.label)}
-                        className="text-lg font-semibold tracking-tight text-white transition-colors hover:text-cyan-200"
+                        className="min-w-0 flex-1 text-lg font-semibold tracking-tight text-white transition-colors hover:text-cyan-200"
                       >
                         {category.label}
                       </NavLink>

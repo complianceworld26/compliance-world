@@ -44,7 +44,7 @@ const Order = () => {
             transition={{ duration: 0.55, ease: 'easeOut' }}
             className="text-center"
           >
-            <h1 className="text-4xl font-semibold tracking-tight sm:text-5xl">
+            <h1 className="break-words text-2xl font-semibold tracking-tight sm:text-5xl">
               Get Your <span className="text-indigo-400">{selectedServiceText}</span> Today
             </h1>
             <p className="mx-auto mt-4 max-w-3xl text-sm text-slate-300 sm:text-base">

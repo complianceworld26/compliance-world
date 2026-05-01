@@ -66,14 +66,14 @@ const HeroSection = () => {
         <div className="absolute inset-0 bg-linear-to-b from-slate-950/20 via-transparent to-slate-950" />
       </div>
 
-      <div className="relative mx-auto grid min-h-[calc(100vh-4rem)] w-full max-w-7xl items-center gap-14 px-4 py-16 sm:px-6 lg:grid-cols-[1.05fr_0.95fr] lg:gap-16 lg:px-8 lg:py-20">
-        <div className="max-w-2xl space-y-8">
+      <div className="relative mx-auto grid min-h-[calc(100dvh-4rem)] w-full min-w-0 max-w-7xl items-center gap-10 px-4 py-12 sm:gap-14 sm:px-6 sm:py-16 lg:min-h-[calc(100vh-4rem)] lg:grid-cols-[1.05fr_0.95fr] lg:gap-16 lg:px-8 lg:py-20">
+        <div className="max-w-2xl min-w-0 space-y-6 sm:space-y-8">
           <p className="hero-eyebrow inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-1.5 text-[11px] font-semibold uppercase tracking-[0.2em] text-cyan-200/90">
             <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 shadow-[0_0_12px_rgba(52,211,153,0.8)]" />
             Trusted compliance partner
           </p>
 
-          <h1 className="hero-title text-4xl font-semibold leading-[1.08] tracking-tight sm:text-5xl lg:text-[3.35rem]">
+          <h1 className="hero-title break-words text-3xl font-semibold leading-[1.08] tracking-tight sm:text-5xl lg:text-[3.35rem]">
             <span className="hero-line block text-white">Compliance that moves</span>
             <span className="cw-hero-gradient-line hero-line mt-1 block bg-linear-to-r from-white via-cyan-100 to-indigo-200 bg-clip-text text-transparent">
               as fast as your business

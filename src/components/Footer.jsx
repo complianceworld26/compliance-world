@@ -59,8 +59,8 @@ const Footer = () => {
 
   return (
     <footer id="contact" className={footerClass}>
-      <div className="mx-auto grid w-full max-w-7xl gap-10 px-4 sm:px-6 lg:grid-cols-5 lg:px-8">
-        <div className="lg:col-span-2">
+      <div className="mx-auto grid w-full max-w-7xl gap-10 px-4 sm:grid-cols-2 sm:px-6 lg:grid-cols-5 lg:px-8">
+        <div className="sm:col-span-2 lg:col-span-2">
           <p className={titleClass}>Compliance World</p>
           <p className={bodyClass}>
             Modern compliance platform to help startups and enterprises stay fully compliant with confidence.
