@@ -1,9 +1,9 @@
-import { useEffect, useState } from 'react'
-import emailjs from '@emailjs/browser'
+import { useState } from 'react'
 import Navbar from '../../components/Navbar'
 import Footer from '../../components/Footer'
 import { useTheme } from '../../context/ThemeContext'
 import { getWhatsAppChatUrl } from '../../utils/whatsapp'
+import { submitContact } from '../../lib/contactApi'
 
 const trustPoints = [
   { label: 'Avg. response time', value: '< 24 hours' },
@@ -47,16 +47,6 @@ const ContactUs = () => {
   const [isSending, setIsSending] = useState(false)
   const [feedback, setFeedback] = useState({ type: '', text: '' })
 
-  const serviceId = import.meta.env.VITE_EMAILJS_SERVICE_ID
-  const templateId = import.meta.env.VITE_EMAILJS_TEMPLATE_ID
-  const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY
-
-  useEffect(() => {
-    if (publicKey) {
-      emailjs.init({ publicKey })
-    }
-  }, [publicKey])
-
   const pageClass = isLight
     ? 'cw-contact-page min-h-screen bg-linear-to-br from-slate-50 via-white to-indigo-50 text-slate-900'
     : 'cw-contact-page min-h-screen bg-linear-to-br from-slate-950 via-slate-900 to-indigo-950 text-white'
@@ -78,8 +68,8 @@ const ContactUs = () => {
     ? 'w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm text-slate-900 placeholder:text-slate-500 transition focus:border-indigo-500 focus:outline-none focus:ring-4 focus:ring-indigo-100'
     : 'w-full rounded-xl border border-white/15 bg-white/5 px-4 py-3 text-sm text-white placeholder:text-slate-400 transition focus:border-indigo-400 focus:outline-none focus:ring-4 focus:ring-indigo-500/20'
   const primaryBtnClass = isLight
-    ? 'w-full rounded-xl bg-linear-to-r from-indigo-600 to-violet-600 px-5 py-3 text-sm font-semibold text-white shadow-lg shadow-indigo-500/20 transition hover:from-indigo-500 hover:to-violet-500'
-    : 'w-full rounded-xl bg-linear-to-r from-indigo-500 to-violet-500 px-5 py-3 text-sm font-semibold text-white shadow-lg shadow-indigo-950/30 transition hover:from-indigo-400 hover:to-violet-400'
+    ? 'w-full rounded-xl bg-linear-to-r from-indigo-600 to-violet-600 px-5 py-3 text-sm font-semibold text-white shadow-lg shadow-indigo-500/20 transition hover:from-indigo-500 hover:to-violet-500 disabled:cursor-not-allowed disabled:opacity-60'
+    : 'w-full rounded-xl bg-linear-to-r from-indigo-500 to-violet-500 px-5 py-3 text-sm font-semibold text-white shadow-lg shadow-indigo-950/30 transition hover:from-indigo-400 hover:to-violet-400 disabled:cursor-not-allowed disabled:opacity-60'
   const serviceTagClass = isLight
     ? 'rounded-full border border-slate-300 bg-slate-100 px-3 py-1 text-xs font-medium text-slate-700'
     : 'rounded-full border border-white/15 bg-white/8 px-3 py-1 text-xs font-medium text-slate-200'
@@ -113,39 +103,16 @@ const ContactUs = () => {
     event.preventDefault()
     setFeedback({ type: '', text: '' })
 
-    if (!serviceId || !templateId || !publicKey) {
-      setFeedback({
-        type: 'error',
-        text: 'Email service is not configured. Add EmailJS keys in your .env file.',
-      })
-      return
-    }
-
     setIsSending(true)
     try {
-      const name = formData.name.trim()
-      const email = formData.from_email.trim()
-      const phone = formData.phone.trim() || 'Not provided'
-      const subject = formData.subject.trim()
-      const message = formData.message.trim()
-
-      const templateParams = {
-        name,
-        from_name: name,
-        user_name: name,
-        email,
-        from_email: email,
-        user_email: email,
-        reply_to: email,
-        phone,
-        phone_number: phone,
-        subject,
-        title: subject,
-        message,
-        text: message,
-      }
-
-      await emailjs.send(serviceId, templateId, templateParams, { publicKey })
+      await submitContact({
+        name: formData.name.trim(),
+        email: formData.from_email.trim(),
+        phone: formData.phone.trim(),
+        subject: formData.subject.trim(),
+        message: formData.message.trim(),
+        source: 'contact',
+      })
 
       setFeedback({
         type: 'success',
@@ -159,27 +126,15 @@ const ContactUs = () => {
         phone: '',
       })
     } catch (error) {
-      let detail = 'Unable to send your message right now. Please try again in a moment.'
-      if (error && typeof error === 'object') {
-        if ('text' in error && error.text) {
-          try {
-            const parsed = JSON.parse(error.text)
-            detail = parsed?.message || parsed?.error || error.text
-          } catch {
-            detail = String(error.text)
-          }
-        } else if (error instanceof Error && error.message) {
-          detail = error.message
-        }
-      }
-      if (detail.length > 220) {
-        detail = `${detail.slice(0, 217)}…`
-      }
+      const detail =
+        error?.message && error.message.length < 400
+          ? error.message
+          : 'Unable to send your message right now. Check that the API is running and EMAILJS_* is set on the server.'
       setFeedback({
         type: 'error',
         text: detail,
       })
-      console.error('[ContactUs] EmailJS send failed:', error)
+      console.error('[ContactUs] submit failed:', error)
     } finally {
       setIsSending(false)
     }
@@ -196,7 +151,7 @@ const ContactUs = () => {
           <section className={heroClass}>
             <div className={heroGlowClass} />
             <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
-              <h1 className="max-w-4xl break-words text-3xl font-bold leading-tight sm:text-4xl sm:text-5xl">
+              <h1 className="max-w-4xl break-words text-3xl font-bold leading-tight sm:text-5xl">
                 Get expert help for your business compliance journey
               </h1>
               <p className={heroSubClass}>
