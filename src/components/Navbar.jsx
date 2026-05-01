@@ -1,8 +1,14 @@
+import { useCallback, useEffect, useRef, useState } from 'react'
+import { createPortal } from 'react-dom'
 import { NavLink, useLocation } from 'react-router-dom'
 import logo from '@/Assets/logo.png'
 import { serviceCategories } from '../data/servicesData'
+import { getServiceDetailPath, slugify } from '../utils/serviceSlug'
 import { useTheme } from '../context/ThemeContext'
 import { useAuth } from '../context/AuthContext'
+
+const CATEGORY_MENU_WIDTH_PX = 576
+const CATEGORY_MENU_CLOSE_MS = 140
 
 const SunIcon = () => (
   <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="1.75" aria-hidden>
@@ -22,6 +28,57 @@ const Navbar = () => {
   const { isLight, toggleTheme } = useTheme()
   const { user, loading: authLoading, signOut } = useAuth()
 
+  const [openCategoryLabel, setOpenCategoryLabel] = useState(null)
+  const [menuCoords, setMenuCoords] = useState({ top: 0, left: 0, width: CATEGORY_MENU_WIDTH_PX })
+  const closeMenuTimerRef = useRef(null)
+
+  const cancelCloseCategoryMenu = useCallback(() => {
+    if (closeMenuTimerRef.current != null) {
+      window.clearTimeout(closeMenuTimerRef.current)
+      closeMenuTimerRef.current = null
+    }
+  }, [])
+
+  const scheduleCloseCategoryMenu = useCallback(() => {
+    cancelCloseCategoryMenu()
+    closeMenuTimerRef.current = window.setTimeout(() => {
+      setOpenCategoryLabel(null)
+      closeMenuTimerRef.current = null
+    }, CATEGORY_MENU_CLOSE_MS)
+  }, [cancelCloseCategoryMenu])
+
+  const openCategoryMenu = useCallback(
+    (category, anchorEl) => {
+      cancelCloseCategoryMenu()
+      const r = anchorEl.getBoundingClientRect()
+      const width = Math.min(CATEGORY_MENU_WIDTH_PX, window.innerWidth - 16)
+      const left = Math.max(8, Math.min(r.left, window.innerWidth - width - 8))
+      setMenuCoords({ top: r.bottom - 8, left, width })
+      setOpenCategoryLabel(category.label)
+    },
+    [cancelCloseCategoryMenu],
+  )
+
+  useEffect(() => {
+    setOpenCategoryLabel(null)
+  }, [location.pathname, location.search])
+
+  useEffect(() => {
+    const close = () => setOpenCategoryLabel(null)
+    window.addEventListener('scroll', close, true)
+    window.addEventListener('resize', close)
+    return () => {
+      window.removeEventListener('scroll', close, true)
+      window.removeEventListener('resize', close)
+      cancelCloseCategoryMenu()
+    }
+  }, [cancelCloseCategoryMenu])
+
+  const openCategory =
+    openCategoryLabel != null
+      ? serviceCategories.find((c) => c.label === openCategoryLabel)
+      : null
+
   const headerClass = isLight
     ? 'sticky top-0 z-50 border-b border-slate-200/80 bg-white/90 shadow-sm backdrop-blur-md'
     : 'sticky top-0 z-50 border-b border-white/10 bg-slate-950/85 shadow-sm shadow-black/20 backdrop-blur-xl supports-[backdrop-filter]:bg-slate-950/75'
@@ -32,9 +89,11 @@ const Navbar = () => {
 
   const brandLogoClass = `h-9 w-9 shrink-0 object-contain sm:h-10 sm:w-10 ${isLight ? '' : 'brightness-0 invert'}`
 
-  const pillWrapClass = isLight
-    ? 'hidden items-center gap-2 rounded-full border border-slate-200 bg-white p-1 lg:flex'
-    : 'hidden items-center gap-2 rounded-full border border-white/10 bg-white/[0.06] p-1 shadow-inner shadow-white/5 backdrop-blur-md lg:flex'
+  const navRailClass = 'hidden min-w-0 flex-1 justify-center self-center px-1 lg:flex'
+
+  const navScrollPillClass = isLight
+    ? 'flex w-full min-w-0 max-w-full flex-nowrap items-center gap-0.5 overflow-x-auto overflow-y-hidden overscroll-x-contain rounded-full border border-slate-200 bg-white p-1 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden'
+    : 'flex w-full min-w-0 max-w-full flex-nowrap items-center gap-0.5 overflow-x-auto overflow-y-hidden overscroll-x-contain rounded-full border border-white/10 bg-white/[0.06] p-1 shadow-inner shadow-white/5 backdrop-blur-md [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden'
 
   const linkIdle = isLight
     ? 'text-slate-600 hover:bg-slate-100 hover:text-slate-900'
@@ -44,21 +103,17 @@ const Navbar = () => {
     ? 'bg-slate-900 text-white shadow-sm'
     : 'bg-white/10 text-white shadow-sm ring-1 ring-cyan-400/25 ring-inset'
 
-  const servicesBtnClass = isLight
-    ? 'inline-flex items-center gap-1 rounded-full px-4 py-2 text-xs font-medium text-slate-600 transition-all duration-200 group-hover:bg-slate-100 group-hover:text-slate-900'
-    : 'inline-flex items-center gap-1 rounded-full px-4 py-2 text-xs font-medium text-slate-300 transition-all duration-200 group-hover:bg-white/10 group-hover:text-cyan-100'
+  const flyoutInnerClass = isLight
+    ? 'rounded-2xl border border-slate-200 bg-white p-3 shadow-2xl shadow-slate-900/10'
+    : 'rounded-2xl border border-white/10 bg-slate-950/95 p-3 shadow-2xl shadow-black/50 backdrop-blur-xl'
 
-  const dropdownClass = isLight
-    ? 'invisible absolute left-0 top-full z-50 mt-3 w-72 rounded-2xl border border-slate-200 bg-white p-2 opacity-0 shadow-2xl shadow-slate-900/10 transition-all duration-200 group-hover:visible group-hover:opacity-100'
-    : 'invisible absolute left-0 top-full z-50 mt-3 w-72 rounded-2xl border border-white/10 bg-slate-950/95 p-2 opacity-0 shadow-2xl shadow-black/50 backdrop-blur-xl transition-all duration-200 group-hover:visible group-hover:opacity-100'
+  const flyoutGridClass = 'grid grid-cols-2 gap-1.5 sm:grid-cols-3'
 
   const dropdownLinkClass = isLight
-    ? 'block rounded-xl px-3 py-2 text-xs font-medium text-slate-700 transition-colors duration-200 hover:bg-slate-100 hover:text-slate-900'
-    : 'block rounded-xl px-3 py-2 text-xs font-medium text-slate-200 transition-colors duration-200 hover:bg-white/10 hover:text-white'
+    ? 'block rounded-lg px-2 py-1.5 text-left text-xs font-medium leading-snug text-slate-700 transition-colors duration-200 hover:bg-slate-100 hover:text-slate-900'
+    : 'block rounded-lg px-2 py-1.5 text-left text-xs font-medium leading-snug text-slate-200 transition-colors duration-200 hover:bg-white/10 hover:text-white'
 
-  const chevronClass = isLight
-    ? 'text-[10px] text-slate-400 transition-transform duration-200 group-hover:rotate-180'
-    : 'text-[10px] text-slate-500 transition-transform duration-200 group-hover:rotate-180'
+  const chevronToneClass = isLight ? 'text-slate-400' : 'text-slate-500'
 
   const seeMoreClass = isLight
     ? 'block rounded-xl bg-slate-900 px-3 py-2 text-center text-xs font-semibold text-white transition-colors duration-200 hover:bg-indigo-700'
@@ -80,71 +135,95 @@ const Navbar = () => {
     ? 'hidden max-w-[100px] truncate text-xs font-medium text-slate-700 sm:inline sm:max-w-[150px] lg:max-w-[200px]'
     : 'hidden max-w-[100px] truncate text-xs font-medium text-slate-200 sm:inline sm:max-w-[150px] lg:max-w-[200px]'
 
+  const searchCategory = new URLSearchParams(location.search).get('category')
+
+  const isCategoryNavActive = (category) => {
+    const slug = slugify(category.label)
+    if (location.pathname.startsWith(`/services/${slug}/`)) return true
+    if (location.pathname === '/services' && searchCategory === category.label) return true
+    return false
+  }
+
   return (
     <header className={headerClass}>
-      <nav className="mx-auto flex h-16 w-full max-w-7xl items-center justify-between gap-4 px-4 sm:px-6 lg:px-8">
-        <NavLink to="/" className={brandClass}>
+      <nav className="mx-auto flex h-16 w-full max-w-7xl items-center gap-3 px-4 sm:gap-4 sm:px-6 lg:gap-4 lg:px-8">
+        <NavLink to="/" className={`shrink-0 ${brandClass}`}>
           <img src={logo} alt="" width={40} height={40} className={brandLogoClass} aria-hidden />
           <span>Compliance World</span>
         </NavLink>
 
-        <div className={pillWrapClass}>
-          <NavLink
-            to="/"
-            className={({ isActive }) =>
-              `rounded-full px-4 py-2 text-xs font-medium transition-all duration-200 ${isActive ? linkActive : linkIdle}`
-            }
-          >
-            Home
-          </NavLink>
+        <div className={navRailClass}>
+          <div className={navScrollPillClass}>
+            <NavLink
+              to="/"
+              className={({ isActive }) =>
+                `shrink-0 rounded-full px-3 py-1.5 text-xs font-medium transition-all duration-200 ${isActive ? linkActive : linkIdle}`
+              }
+            >
+              Home
+            </NavLink>
 
-          <div className="group relative">
-            <button type="button" className={servicesBtnClass}>
-              Services
-              <span className={chevronClass}>▼</span>
-            </button>
-
-            <div className={dropdownClass}>
-              <div className="max-h-88 overflow-y-auto pr-1">
-                {serviceCategories.map((item) => (
+            {serviceCategories.map((category) => {
+              const menuOpen = openCategoryLabel === category.label
+              return (
+                <div
+                  key={category.label}
+                  className="relative shrink-0"
+                  onMouseEnter={(e) => openCategoryMenu(category, e.currentTarget)}
+                  onMouseLeave={scheduleCloseCategoryMenu}
+                >
                   <NavLink
-                    key={item.label}
-                    to={`/services?category=${encodeURIComponent(item.label)}`}
-                    className={dropdownLinkClass}
+                    to={`/services?category=${encodeURIComponent(category.label)}`}
+                    className={() =>
+                      `inline-flex items-center gap-1 whitespace-nowrap rounded-full px-3 py-1.5 text-xs font-medium transition-all duration-200 ${isCategoryNavActive(category) ? linkActive : linkIdle}`
+                    }
                   >
-                    {item.label}
-                  </NavLink>
-                ))}
-
-                <div className={`mt-2 border-t pt-2 ${isLight ? 'border-slate-200' : 'border-white/10'}`}>
-                  <NavLink to="/services" className={seeMoreClass}>
-                    See more services
+                    {category.label}
+                    <span
+                      className={`inline-flex shrink-0 transition-transform duration-200 ${chevronToneClass} ${menuOpen ? '-rotate-180' : ''}`}
+                      aria-hidden
+                    >
+                      <svg viewBox="0 0 12 12" className="size-2.5" fill="currentColor">
+                        <path d="M6 8.2 1.8 4h8.4L6 8.2z" />
+                      </svg>
+                    </span>
                   </NavLink>
                 </div>
-              </div>
-            </div>
+              )
+            })}
+
+            <NavLink
+              to="/services"
+              className={() =>
+                `shrink-0 whitespace-nowrap rounded-full px-3 py-1.5 text-xs font-medium transition-all duration-200 ${
+                  location.pathname === '/services' && !searchCategory ? linkActive : linkIdle
+                }`
+              }
+            >
+              All services
+            </NavLink>
+
+            <NavLink
+              to="/about-us"
+              className={({ isActive }) =>
+                `shrink-0 whitespace-nowrap rounded-full px-3 py-1.5 text-xs font-medium transition-all duration-200 ${isActive ? linkActive : linkIdle}`
+              }
+            >
+              About Us
+            </NavLink>
+
+            <NavLink
+              to="/contact-us"
+              className={({ isActive }) =>
+                `shrink-0 whitespace-nowrap rounded-full px-3 py-1.5 text-xs font-medium transition-all duration-200 ${isActive ? linkActive : linkIdle}`
+              }
+            >
+              Contact
+            </NavLink>
           </div>
-
-          <NavLink
-            to="/about-us"
-            className={({ isActive }) =>
-              `rounded-full px-4 py-2 text-xs font-medium transition-all duration-200 ${isActive ? linkActive : linkIdle}`
-            }
-          >
-            About Us
-          </NavLink>
-
-          <NavLink
-            to="/contact-us"
-            className={({ isActive }) =>
-              `rounded-full px-4 py-2 text-xs font-medium transition-all duration-200 ${isActive ? linkActive : linkIdle}`
-            }
-          >
-            Contact
-          </NavLink>
         </div>
 
-        <div className="flex flex-wrap items-center justify-end gap-2">
+        <div className="flex shrink-0 flex-wrap items-center justify-end gap-2">
           {authLoading ? (
             <span
               className={`rounded-xl px-3 py-2 text-xs font-medium sm:text-sm ${isLight ? 'text-slate-500' : 'text-slate-500'}`}
@@ -176,6 +255,45 @@ const Navbar = () => {
           </button>
         </div>
       </nav>
+
+      {openCategory != null &&
+        createPortal(
+          <div
+            className="fixed z-200"
+            style={{
+              top: menuCoords.top,
+              left: menuCoords.left,
+              width: menuCoords.width,
+            }}
+            onMouseEnter={cancelCloseCategoryMenu}
+            onMouseLeave={scheduleCloseCategoryMenu}
+          >
+            <div className={flyoutInnerClass}>
+              <div className={flyoutGridClass}>
+                {openCategory.options.map((option) => (
+                  <NavLink
+                    key={option}
+                    to={getServiceDetailPath(openCategory.label, option)}
+                    className={dropdownLinkClass}
+                  >
+                    {option}
+                  </NavLink>
+                ))}
+                <div
+                  className={`col-span-full mt-1 border-t pt-2 ${isLight ? 'border-slate-200' : 'border-white/10'}`}
+                >
+                  <NavLink
+                    to={`/services?category=${encodeURIComponent(openCategory.label)}`}
+                    className={seeMoreClass}
+                  >
+                    View all {openCategory.label}
+                  </NavLink>
+                </div>
+              </div>
+            </div>
+          </div>,
+          document.body,
+        )}
     </header>
   )
 }
