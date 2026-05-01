@@ -1,5 +1,6 @@
 import { NavLink } from 'react-router-dom'
 import { useTheme } from '../context/ThemeContext'
+import { getWhatsAppChatUrl } from '../utils/whatsapp'
 
 const footerColumns = [
   {
@@ -67,6 +68,16 @@ const Footer = () => {
           <div className={contactClass}>
             <p>Email: info@complianceworld.in</p>
             <p>Phone: +91 90000 00000</p>
+            <p>
+              <a
+                href={getWhatsAppChatUrl()}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={`inline-flex ${isLight ? linkHover : linkHoverDark}`}
+              >
+                WhatsApp
+              </a>
+            </p>
             <p>Address: Delhi, India</p>
           </div>
         </div>

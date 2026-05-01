@@ -37,13 +37,6 @@ export function login(payload) {
   })
 }
 
-export function firebaseLogin(payload) {
-  return request('/api/auth/firebase-login', {
-    method: 'POST',
-    body: JSON.stringify(payload),
-  })
-}
-
 export function logout() {
   return request('/api/auth/logout', {
     method: 'POST',
