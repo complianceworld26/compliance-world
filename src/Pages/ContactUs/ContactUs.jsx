@@ -3,6 +3,7 @@ import emailjs from '@emailjs/browser'
 import Navbar from '../../components/Navbar'
 import Footer from '../../components/Footer'
 import { useTheme } from '../../context/ThemeContext'
+import { getWhatsAppChatUrl } from '../../utils/whatsapp'
 
 const trustPoints = [
   { label: 'Avg. response time', value: '< 24 hours' },
@@ -25,6 +26,12 @@ const contactChannels = [
     title: 'Office',
     value: 'Mumbai, India',
     note: 'Mon - Sat, 9:00 AM to 7:00 PM',
+  },
+  {
+    title: 'WhatsApp',
+    value: 'Message us on WhatsApp',
+    note: 'Open a chat in one tap — ideal for quick questions and follow-ups.',
+    href: getWhatsAppChatUrl(),
   },
 ]
 
@@ -80,6 +87,9 @@ const ContactUs = () => {
   const channelTitleClass = isLight ? 'text-xs font-semibold uppercase tracking-[0.18em] text-indigo-700' : 'text-xs font-semibold uppercase tracking-[0.18em] text-cyan-300'
   const channelValueClass = isLight ? 'mt-2 text-base font-semibold text-slate-900' : 'mt-2 text-base font-semibold text-white'
   const channelNoteClass = isLight ? 'mt-1 text-sm text-slate-600' : 'mt-1 text-sm text-slate-300'
+  const channelLinkClass = isLight
+    ? 'mt-2 inline-flex text-base font-semibold text-indigo-600 underline decoration-indigo-300 underline-offset-4 transition hover:text-indigo-500'
+    : 'mt-2 inline-flex text-base font-semibold text-cyan-300 underline decoration-cyan-500/50 underline-offset-4 transition hover:text-cyan-200'
   const feedbackClass = feedback.type === 'success'
     ? isLight
       ? 'mt-4 rounded-xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-700'
@@ -242,7 +252,18 @@ const ContactUs = () => {
                   {contactChannels.map((item) => (
                     <div key={item.title} className={channelCardClass}>
                       <p className={channelTitleClass}>{item.title}</p>
-                      <p className={channelValueClass}>{item.value}</p>
+                      {item.href ? (
+                        <a
+                          href={item.href}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className={channelLinkClass}
+                        >
+                          {item.value}
+                        </a>
+                      ) : (
+                        <p className={channelValueClass}>{item.value}</p>
+                      )}
                       <p className={channelNoteClass}>{item.note}</p>
                     </div>
                   ))}
