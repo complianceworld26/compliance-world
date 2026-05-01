@@ -5,30 +5,14 @@ import { NavLink, useLocation, useNavigate } from 'react-router-dom'
 const MotionButton = motionNamespace.button
 const MotionDiv = motionNamespace.div
 import AuthLayout from '../../components/AuthLayout'
-import { GoogleSignInButton } from '../../components/GoogleSignInButton'
 import { useAuth } from '../../context/AuthContext'
-import { useConsumeGoogleAuthSessionError } from '../../hooks/useConsumeGoogleAuthSessionError'
 import { formatAuthError } from '../../utils/authErrors'
 
 const inputClass =
   'w-full rounded-xl border border-white/15 bg-white/5 px-4 py-3 text-sm text-white placeholder:text-slate-400 focus:border-indigo-400 focus:outline-none'
 
-const LoginForm = ({
-  form,
-  handleChange,
-  handleSubmit,
-  error,
-  info,
-  busy,
-  onGoogle,
-  isFirebaseConfigured,
-}) => (
+const LoginForm = ({ form, handleChange, handleSubmit, error, info, busy }) => (
   <div className="space-y-4">
-    {!isFirebaseConfigured ? (
-      <p className="rounded-xl border border-amber-400/30 bg-amber-500/10 px-3 py-2 text-xs text-amber-100">
-        {formatAuthError('app/firebase-not-configured')}
-      </p>
-    ) : null}
     {error ? (
       <p className="rounded-xl border border-red-400/25 bg-red-500/10 px-3 py-2 text-xs text-red-100">{error}</p>
     ) : null}
@@ -87,23 +71,12 @@ const LoginForm = ({
         type="submit"
         whileHover={{ y: -1 }}
         whileTap={{ scale: 0.99 }}
-        disabled={busy || !isFirebaseConfigured}
+        disabled={busy}
         className="w-full rounded-xl bg-linear-to-r from-indigo-500 to-violet-500 px-4 py-3 text-sm font-semibold text-white shadow-lg shadow-indigo-950/30 transition hover:from-indigo-400 hover:to-violet-400 disabled:opacity-50"
       >
         {busy ? 'Signing in…' : 'Sign in'}
       </MotionButton>
     </form>
-
-    <div className="relative py-2">
-      <div className="absolute inset-0 flex items-center" aria-hidden>
-        <span className="w-full border-t border-white/10" />
-      </div>
-      <div className="relative flex justify-center text-xs">
-        <span className="bg-slate-950/90 px-3 text-slate-500">or</span>
-      </div>
-    </div>
-
-    <GoogleSignInButton onClick={onGoogle} disabled={!isFirebaseConfigured} loading={busy} variant="dark" />
   </div>
 )
 
@@ -113,14 +86,12 @@ const Login = () => {
   const background = location.state?.background
   const isModal = Boolean(background)
 
-  const { user, loading: authLoading, signInWithEmail, signInWithGoogle, isFirebaseConfigured: firebaseReady } = useAuth()
+  const { user, loading: authLoading, signInWithEmail } = useAuth()
 
   const [form, setForm] = useState({ email: '', password: '' })
   const [error, setError] = useState('')
   const [info, setInfo] = useState('')
   const [busy, setBusy] = useState(false)
-
-  useConsumeGoogleAuthSessionError(setError)
 
   const handleChange = (e) => {
     const { name, value } = e.target
@@ -160,18 +131,6 @@ const Login = () => {
     }
   }
 
-  const handleGoogle = async () => {
-    setError('')
-    setInfo('')
-    setBusy(true)
-    try {
-      await signInWithGoogle()
-    } catch (err) {
-      setError(formatAuthError(err?.code))
-      setBusy(false)
-    }
-  }
-
   const closeModal = useCallback(() => {
     if (background) {
       const { pathname, search, hash } = background
@@ -202,8 +161,6 @@ const Login = () => {
     error,
     info,
     busy,
-    onGoogle: handleGoogle,
-    isFirebaseConfigured: firebaseReady,
   }
 
   if (isModal) {

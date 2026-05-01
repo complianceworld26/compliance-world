@@ -8,5 +8,5 @@ const src = path.join(root, 'public', 'coop-headers')
 const dest = path.join(root, 'dist', '_headers')
 if (fs.existsSync(src)) {
   fs.copyFileSync(src, dest)
-  console.log('Wrote dist/_headers for Netlify COOP (Firebase Google popup).')
+  console.log('Wrote dist/_headers for Netlify (COOP / security headers).')
 }
