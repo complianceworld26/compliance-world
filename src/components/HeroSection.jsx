@@ -1,6 +1,16 @@
 import { useLayoutEffect, useRef } from 'react'
 import { gsap } from '../lib/gsap'
 
+/** Royalty-free photos (Unsplash) — swap for your own assets in /public when ready */
+const HERO_IMAGES = {
+  team:
+    'https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=1400&q=82',
+  workspace:
+    'https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=900&q=82',
+  finance:
+    'https://images.unsplash.com/photo-1554224155-6726b3ff858f?auto=format&fit=crop&w=900&q=82',
+}
+
 const HeroSection = () => {
   const rootRef = useRef(null)
 
@@ -66,8 +76,8 @@ const HeroSection = () => {
         <div className="absolute inset-0 bg-linear-to-b from-slate-950/20 via-transparent to-slate-950" />
       </div>
 
-      <div className="relative mx-auto grid min-h-[calc(100dvh-4rem)] w-full min-w-0 max-w-7xl items-center gap-10 px-4 py-12 sm:gap-14 sm:px-6 sm:py-16 lg:min-h-[calc(100vh-4rem)] lg:grid-cols-[1.05fr_0.95fr] lg:gap-16 lg:px-8 lg:py-20">
-        <div className="max-w-2xl min-w-0 space-y-6 sm:space-y-8">
+      <div className="relative mx-auto grid min-h-[calc(100dvh-4rem)] w-full min-w-0 max-w-7xl items-center gap-12 px-4 py-14 sm:gap-14 sm:px-6 sm:py-16 lg:min-h-[calc(100vh-4rem)] lg:grid-cols-[1.08fr_1fr] lg:gap-20 lg:px-8 lg:py-24">
+        <div className="max-w-2xl min-w-0 space-y-6 sm:space-y-8 lg:py-2">
           <p className="hero-eyebrow inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-1.5 text-[11px] font-semibold uppercase tracking-[0.2em] text-cyan-200/90">
             <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 shadow-[0_0_12px_rgba(52,211,153,0.8)]" />
             Trusted compliance partner
@@ -113,47 +123,74 @@ const HeroSection = () => {
           </div>
         </div>
 
-        <div className="hero-panel relative mx-auto w-full max-w-lg lg:max-w-none">
-          <div className="absolute -inset-1 rounded-3xl bg-linear-to-br from-indigo-500/30 via-transparent to-cyan-500/20 blur-xl" />
-          <div className="relative overflow-hidden rounded-3xl border border-white/10 bg-white/5 p-6 shadow-2xl backdrop-blur-xl sm:p-8">
-            <div className="flex items-center justify-between gap-3 border-b border-white/10 pb-5">
-              <div>
-                <p className="text-xs font-medium uppercase tracking-wider text-slate-400">Workspace</p>
-                <p className="mt-1 text-lg font-semibold text-white">Compliance overview</p>
-              </div>
-              <span className="rounded-full bg-emerald-500/15 px-3 py-1 text-xs font-semibold text-emerald-300">
-                On track
-              </span>
-            </div>
-
-            <div className="mt-6 grid gap-4 sm:grid-cols-2">
-              <div className="hero-float rounded-2xl border border-white/10 bg-white/5 p-4">
-                <p className="text-[11px] font-semibold uppercase tracking-wider text-slate-400">Health score</p>
-                <p className="mt-2 text-3xl font-semibold tabular-nums text-white">98%</p>
-                <div className="mt-3 h-1.5 overflow-hidden rounded-full bg-white/10">
-                  <div className="h-full w-[98%] rounded-full bg-linear-to-r from-cyan-400 to-indigo-400" />
+        <div className="hero-panel relative mx-auto w-full max-w-xl lg:max-w-none">
+          <div className="absolute -inset-1 rounded-[1.75rem] bg-linear-to-br from-indigo-500/35 via-transparent to-cyan-500/25 blur-xl" />
+          <div className="relative grid gap-4 sm:gap-5">
+            <div className="hero-float relative aspect-[4/3] overflow-hidden rounded-3xl border border-white/10 shadow-2xl sm:aspect-[5/4] lg:aspect-[16/11]">
+              <img
+                src={HERO_IMAGES.team}
+                alt="Business team collaborating on compliance and planning in a modern office"
+                className="h-full w-full object-cover"
+                width={1400}
+                height={933}
+                fetchPriority="high"
+                decoding="async"
+              />
+              <div className="absolute inset-0 bg-linear-to-t from-slate-950/90 via-slate-950/25 to-transparent" />
+              <div className="absolute inset-x-0 bottom-0 p-5 sm:p-6">
+                <div className="flex flex-wrap items-end justify-between gap-4">
+                  <div>
+                    <p className="text-[11px] font-semibold uppercase tracking-wider text-cyan-200/90">
+                      Your compliance desk
+                    </p>
+                    <p className="mt-1 max-w-[16rem] text-lg font-semibold leading-snug text-white sm:text-xl">
+                      Experts and process, aligned with your filings
+                    </p>
+                  </div>
+                  <span className="shrink-0 rounded-full bg-emerald-500/20 px-3 py-1.5 text-xs font-semibold text-emerald-200 ring-1 ring-emerald-400/30">
+                    On track
+                  </span>
                 </div>
               </div>
-              <div className="hero-float rounded-2xl border border-white/10 bg-white/5 p-4">
-                <p className="text-[11px] font-semibold uppercase tracking-wider text-slate-400">Automations</p>
-                <p className="mt-2 text-3xl font-semibold tabular-nums text-white">1,200+</p>
-                <p className="mt-3 text-xs text-slate-500">Tasks cleared this quarter</p>
-              </div>
             </div>
 
-            <div className="hero-float mt-4 rounded-2xl border border-white/10 bg-white/5 p-4">
-              <p className="text-[11px] font-semibold uppercase tracking-wider text-slate-400">Upcoming</p>
-              <ul className="mt-3 space-y-2.5">
-                {['GST filing — Apr 20', 'TDS return — Apr 30', 'ROC update — May 10'].map((item) => (
-                  <li
-                    key={item}
-                    className="flex items-center justify-between gap-3 rounded-xl bg-white/5 px-3 py-2.5 text-sm text-slate-200"
-                  >
-                    <span>{item}</span>
-                    <span className="h-2 w-2 shrink-0 rounded-full bg-cyan-400 shadow-[0_0_10px_rgba(34,211,238,0.6)]" />
-                  </li>
-                ))}
-              </ul>
+            <div className="grid grid-cols-2 gap-4 sm:gap-5">
+              <div className="hero-float relative aspect-[4/3] overflow-hidden rounded-2xl border border-white/10 shadow-lg sm:aspect-square">
+                <img
+                  src={HERO_IMAGES.workspace}
+                  alt="Bright open workspace with desks and natural light"
+                  className="h-full w-full object-cover"
+                  width={900}
+                  height={900}
+                  loading="lazy"
+                  decoding="async"
+                />
+                <div className="absolute inset-0 bg-slate-950/15" />
+              </div>
+              <div className="hero-float flex flex-col overflow-hidden rounded-2xl border border-white/10 bg-white/5 shadow-lg backdrop-blur-sm">
+                <div className="relative aspect-[4/3] shrink-0 sm:aspect-[5/4]">
+                  <img
+                    src={HERO_IMAGES.finance}
+                    alt="Financial documents and calculator on a desk"
+                    className="h-full w-full object-cover"
+                    width={900}
+                    height={675}
+                    loading="lazy"
+                    decoding="async"
+                  />
+                  <div className="absolute inset-0 bg-linear-to-t from-slate-950/80 via-transparent to-transparent" />
+                </div>
+                <div className="flex flex-1 flex-col justify-center gap-3 p-4 sm:p-5">
+                  <div>
+                    <p className="text-[11px] font-semibold uppercase tracking-wider text-slate-400">Health score</p>
+                    <p className="mt-1 text-2xl font-semibold tabular-nums text-white sm:text-3xl">98%</p>
+                  </div>
+                  <div className="h-1.5 overflow-hidden rounded-full bg-white/10">
+                    <div className="h-full w-[98%] rounded-full bg-linear-to-r from-cyan-400 to-indigo-400" />
+                  </div>
+                  <p className="text-xs text-slate-500">Filings and reviews staying ahead of deadlines</p>
+                </div>
+              </div>
             </div>
           </div>
         </div>
