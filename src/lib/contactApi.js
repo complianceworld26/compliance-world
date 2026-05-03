@@ -3,13 +3,14 @@ const API_URL = (import.meta.env.VITE_API_URL || 'http://localhost:5000').replac
 function buildTemplateParams(payload) {
   const name = String(payload.name ?? '').trim()
   const email = String(payload.email ?? payload.from_email ?? '').trim()
-  const phone = String(payload.phone ?? '').trim() || 'Not provided'
+  const phoneRaw = String(payload.phone ?? '').trim()
+  const phone = phoneRaw || 'Not provided'
   const subjectRaw = String(payload.subject ?? '').trim()
   const message = String(payload.message ?? '').trim()
   const source = String(payload.source ?? 'contact').trim() || 'contact'
   const subject = subjectRaw || (source === 'order' ? 'Order form inquiry' : 'Contact form')
 
-  return {
+  const params = {
     name,
     from_name: name,
     user_name: name,
@@ -19,11 +20,17 @@ function buildTemplateParams(payload) {
     reply_to: email,
     phone,
     phone_number: phone,
+    user_phone: phone,
+    contact_phone: phone,
     subject,
     title: subject,
     message: source ? `[${source}] ${message}` : message,
     text: message,
   }
+
+  return Object.fromEntries(
+    Object.entries(params).map(([key, value]) => [key, value == null ? '' : String(value)]),
+  )
 }
 
 async function sendViaBrowserEmailJs(payload) {

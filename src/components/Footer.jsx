@@ -67,18 +67,8 @@ const Footer = () => {
           </p>
           <div className={contactClass}>
             <p>Email: info@complianceworld.in</p>
-            <p>Phone: +91 90000 00000</p>
-            <p>
-              <a
-                href={getWhatsAppChatUrl()}
-                target="_blank"
-                rel="noopener noreferrer"
-                className={`inline-flex ${isLight ? linkHover : linkHoverDark}`}
-              >
-                WhatsApp
-              </a>
-            </p>
-            <p>Address: Delhi, India</p>
+            <p>Phone: +91 9205212179</p>
+            <p>Address: 10 A, 5/10 Vikas Puri Etension, New Delhi : 110041</p>
           </div>
         </div>
 
