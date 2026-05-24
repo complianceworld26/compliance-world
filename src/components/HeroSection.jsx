@@ -1,14 +1,13 @@
 import { useLayoutEffect, useRef } from 'react'
 import { gsap } from '../lib/gsap'
+import hero1 from '../Assets/hero/hero1.png'
+import hero2 from '../Assets/hero/hero2.png'
+import hero3 from '../Assets/hero/hero3.png'
 
-/** Royalty-free photos (Unsplash) — swap for your own assets in /public when ready */
 const HERO_IMAGES = {
-  team:
-    'https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=1400&q=82',
-  workspace:
-    'https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=900&q=82',
-  finance:
-    'https://images.unsplash.com/photo-1554224155-6726b3ff858f?auto=format&fit=crop&w=900&q=82',
+  main: hero1,
+  filings: hero3,
+  desk: hero2,
 }
 
 const HeroSection = () => {
@@ -128,8 +127,8 @@ const HeroSection = () => {
           <div className="relative grid gap-4 sm:gap-5">
             <div className="hero-float relative aspect-[4/3] overflow-hidden rounded-3xl border border-white/10 shadow-2xl sm:aspect-[5/4] lg:aspect-[16/11]">
               <img
-                src={HERO_IMAGES.team}
-                alt="Business team collaborating on compliance and planning in a modern office"
+                src={HERO_IMAGES.main}
+                alt="Consultation for company registration, GST, ROC filing, and trademark services in India"
                 className="h-full w-full object-cover"
                 width={1400}
                 height={933}
@@ -141,10 +140,10 @@ const HeroSection = () => {
                 <div className="flex flex-wrap items-end justify-between gap-4">
                   <div>
                     <p className="text-[11px] font-semibold uppercase tracking-wider text-cyan-200/90">
-                      Your compliance desk
+                      Government-aligned compliance
                     </p>
                     <p className="mt-1 max-w-[16rem] text-lg font-semibold leading-snug text-white sm:text-xl">
-                      Experts and process, aligned with your filings
+                      MCA, GST, ROC & tax filings — done right
                     </p>
                   </div>
                   <span className="shrink-0 rounded-full bg-emerald-500/20 px-3 py-1.5 text-xs font-semibold text-emerald-200 ring-1 ring-emerald-400/30">
@@ -157,8 +156,8 @@ const HeroSection = () => {
             <div className="grid grid-cols-2 gap-4 sm:gap-5">
               <div className="hero-float relative aspect-[4/3] overflow-hidden rounded-2xl border border-white/10 shadow-lg sm:aspect-square">
                 <img
-                  src={HERO_IMAGES.workspace}
-                  alt="Bright open workspace with desks and natural light"
+                  src={HERO_IMAGES.filings}
+                  alt="Company registration, GST, ROC, income tax, and trademark filing binders with MCA certificate"
                   className="h-full w-full object-cover"
                   width={900}
                   height={900}
@@ -170,8 +169,8 @@ const HeroSection = () => {
               <div className="hero-float flex flex-col overflow-hidden rounded-2xl border border-white/10 bg-white/5 shadow-lg backdrop-blur-sm">
                 <div className="relative aspect-[4/3] shrink-0 sm:aspect-[5/4]">
                   <img
-                    src={HERO_IMAGES.finance}
-                    alt="Financial documents and calculator on a desk"
+                    src={HERO_IMAGES.desk}
+                    alt="Desk with GST registration certificate, compliance checklist, and Indian government filings"
                     className="h-full w-full object-cover"
                     width={900}
                     height={675}
@@ -188,7 +187,7 @@ const HeroSection = () => {
                   <div className="h-1.5 overflow-hidden rounded-full bg-white/10">
                     <div className="h-full w-[98%] rounded-full bg-linear-to-r from-cyan-400 to-indigo-400" />
                   </div>
-                  <p className="text-xs text-slate-500">Filings and reviews staying ahead of deadlines</p>
+                  <p className="text-xs text-slate-500">GST, ITR & statutory filings on schedule</p>
                 </div>
               </div>
             </div>
