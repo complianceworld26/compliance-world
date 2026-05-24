@@ -28,14 +28,14 @@ const Home = () => {
           <HeroSection />
           <SectionDivider />
           <IntroVideoSection />
-          <PartnersSection />
+          {/* <PartnersSection /> */}
           <ServicesSection />
           <SectionDivider />
           <FeaturesSection />
           <SectionDivider />
           <HowItWorksSection />
-          <SectionDivider />
-          <TrustSection />
+          {/* <SectionDivider />
+          <TrustSection /> */}
           <SectionDivider />
           <InsightsSection />
           <SectionDivider />
