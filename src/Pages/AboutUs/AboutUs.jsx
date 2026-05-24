@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion'
 import { NavLink } from 'react-router-dom'
+import aboutUsImg from '../../Assets/aboutusimg.png'
 import Footer from '../../components/Footer'
 import Navbar from '../../components/Navbar'
 import { useTheme } from '../../context/ThemeContext'
@@ -98,12 +99,12 @@ const AboutUs = () => {
         <main>
           <section className={heroClass}>
             <div className={heroGlowClass} />
-            <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
+            <div className="mx-auto grid w-full max-w-7xl items-center gap-8 px-4 sm:px-6 lg:grid-cols-[1.05fr_0.95fr] lg:gap-12 lg:px-8">
               <motion.div
                 initial={{ opacity: 0, y: 22 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, ease: 'easeOut' }}
-                className="max-w-3xl"
+                className="max-w-3xl min-w-0"
               >
                 <p className={eyebrowClass}>About Compliance World</p>
                 <h1 className={heroTitleClass}>
@@ -113,6 +114,38 @@ const AboutUs = () => {
                   Compliance World helps founders and growing businesses manage registrations, tax filings, MCA requirements, and
                   recurring compliance from one calm, expert-led workspace.
                 </p>
+              </motion.div>
+
+              <motion.div
+                initial={{ opacity: 0, y: 28, scale: 0.98 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                transition={{ duration: 0.55, ease: 'easeOut', delay: 0.08 }}
+                className="relative mx-auto w-full max-w-[300px] sm:max-w-[380px] lg:mx-0 lg:max-w-[440px] lg:justify-self-end"
+              >
+                <div
+                  className={
+                    isLight
+                      ? 'absolute -inset-1 rounded-3xl bg-linear-to-br from-indigo-200/80 via-transparent to-cyan-200/60 blur-lg'
+                      : 'absolute -inset-1 rounded-3xl bg-linear-to-br from-indigo-500/30 via-transparent to-cyan-500/20 blur-xl'
+                  }
+                />
+                <div
+                  className={
+                    isLight
+                      ? 'relative overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-xl shadow-slate-900/10'
+                      : 'relative overflow-hidden rounded-3xl border border-white/10 bg-white/5 shadow-2xl shadow-black/30'
+                  }
+                >
+                  <img
+                    src={aboutUsImg}
+                    alt="Compliance World office with company branding, Indian national symbols, and compliance service binders"
+                    className="aspect-[4/3] w-full object-cover"
+                    width={880}
+                    height={660}
+                    loading="eager"
+                    decoding="async"
+                  />
+                </div>
               </motion.div>
             </div>
           </section>
