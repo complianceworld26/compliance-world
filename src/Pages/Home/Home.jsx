@@ -23,7 +23,7 @@ const Home = () => {
   return (
     <>
       <Navbar />
-      <div data-appearance="dark" className="min-h-screen bg-slate-950 text-slate-100 antialiased">
+      <div data-appearance="dark" className="cw-home min-h-screen bg-slate-950 text-slate-100 antialiased">
         <main>
           <HeroSection />
           <SectionDivider />
