@@ -112,7 +112,7 @@ const Navbar = () => {
     : 'sticky top-0 z-50 border-b border-white/10 bg-slate-950/85 shadow-sm shadow-black/20 backdrop-blur-xl supports-[backdrop-filter]:bg-slate-950/75'
 
   const brandClass = isLight
-    ? 'inline-flex shrink-0 items-center gap-2.5 text-base font-bold tracking-tight text-slate-900 transition-colors duration-200 hover:text-indigo-700 sm:text-lg'
+    ? 'inline-flex shrink-0 items-center gap-2.5 text-base font-bold tracking-tight text-[#1a3a78] transition-colors duration-200 hover:text-[#1e40af] sm:text-lg'
     : 'inline-flex shrink-0 items-center gap-2.5 text-base font-bold tracking-tight text-white transition-colors duration-200 hover:text-cyan-200 sm:text-lg'
 
   const brandLogoClass = `h-9 w-9 shrink-0 object-contain sm:h-10 sm:w-10 ${isLight ? '' : 'brightness-0 invert'}`
@@ -128,7 +128,7 @@ const Navbar = () => {
     : 'text-slate-300 hover:bg-white/10 hover:text-cyan-100'
 
   const linkActive = isLight
-    ? 'bg-slate-900 text-white shadow-sm'
+    ? 'bg-[#1a3a78] text-white shadow-sm'
     : 'bg-white/10 text-white shadow-sm ring-1 ring-cyan-400/25 ring-inset'
 
   const flyoutInnerClass = isLight
@@ -144,7 +144,7 @@ const Navbar = () => {
   const chevronToneClass = isLight ? 'text-slate-400' : 'text-slate-500'
 
   const seeMoreClass = isLight
-    ? 'block rounded-xl bg-slate-900 px-3 py-2 text-center text-xs font-semibold text-white transition-colors duration-200 hover:bg-indigo-700'
+    ? 'block rounded-xl bg-[#1a3a78] px-3 py-2 text-center text-xs font-semibold text-white transition-colors duration-200 hover:bg-[#1e40af]'
     : 'block rounded-xl bg-white px-3 py-2 text-center text-xs font-semibold text-slate-900 transition-colors duration-200 hover:bg-cyan-100'
 
   const toggleBtnClass = isLight
@@ -152,7 +152,7 @@ const Navbar = () => {
     : 'inline-flex size-10 items-center justify-center rounded-xl border border-white/15 bg-white/5 text-cyan-100 transition-colors duration-200 hover:border-cyan-400/35 hover:bg-white/10 hover:text-white'
 
   const loginClass = isLight
-    ? 'rounded-xl bg-slate-900 px-4 py-2 text-xs font-semibold text-white shadow-md shadow-slate-900/15 transition-all duration-200 hover:bg-indigo-700 sm:px-5 sm:text-sm'
+    ? 'rounded-xl bg-[#1a3a78] px-4 py-2 text-xs font-semibold text-white shadow-md shadow-[#1a3a78]/20 transition-all duration-200 hover:bg-[#1e40af] sm:px-5 sm:text-sm'
     : 'rounded-xl bg-white px-4 py-2 text-xs font-semibold text-slate-900 shadow-lg shadow-black/35 transition-all duration-200 hover:bg-slate-100 sm:px-5 sm:text-sm'
 
   const signOutClass = isLight

@@ -4,18 +4,21 @@ import { gsap } from '../lib/gsap'
 const steps = [
   {
     number: '01',
-    title: 'Choose your service',
-    description: 'Map the exact filings, registrations, or advisory scope you need right now.',
+    title: 'Consultation & scope',
+    description:
+      'We review your requirement, confirm eligibility, and list the documents and filings involved before any work begins.',
   },
   {
     number: '02',
-    title: 'Share details securely',
-    description: 'Upload documents through encrypted channels with guided checklists.',
+    title: 'Document preparation',
+    description:
+      'You share information through a structured checklist. Our team prepares forms, drafts, and supporting paperwork for review.',
   },
   {
     number: '03',
-    title: 'We execute & update you',
-    description: 'Experts file, reconcile, and report back with plain-language status notes.',
+    title: 'Filing & follow-through',
+    description:
+      'We submit to the relevant authority, monitor status, and inform you at each milestone until the matter is closed.',
   },
 ]
 
@@ -27,30 +30,13 @@ const HowItWorksSection = () => {
     if (!root) return
 
     const ctx = gsap.context(() => {
-      gsap.from('.hiw-head > *', {
+      gsap.from('.hiw-reveal', {
         y: 24,
         opacity: 0,
-        duration: 0.6,
+        duration: 0.55,
         stagger: 0.08,
-        ease: 'power3.out',
-        scrollTrigger: { trigger: '.hiw-head', start: 'top 82%' },
-      })
-
-      gsap.from('.hiw-line', {
-        scaleX: 0,
-        transformOrigin: 'left center',
-        duration: 1,
-        ease: 'power2.inOut',
-        scrollTrigger: { trigger: '.hiw-track', start: 'top 75%' },
-      })
-
-      gsap.from('.hiw-step', {
-        y: 40,
-        opacity: 0,
-        duration: 0.65,
-        stagger: 0.15,
-        ease: 'power3.out',
-        scrollTrigger: { trigger: '.hiw-steps', start: 'top 78%' },
+        ease: 'power2.out',
+        scrollTrigger: { trigger: root, start: 'top 85%', once: true },
       })
     }, root)
 
@@ -58,35 +44,41 @@ const HowItWorksSection = () => {
   }, [])
 
   return (
-    <section ref={rootRef} className="relative overflow-hidden bg-slate-950 py-24 text-white sm:py-28">
-      <div className="pointer-events-none absolute right-0 top-1/2 h-[32rem] w-[32rem] -translate-y-1/2 rounded-full bg-indigo-600/20 blur-[120px]" />
-
-      <div className="relative mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="hiw-head mx-auto max-w-2xl text-center">
-          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-cyan-300/90">How it works</p>
-          <h2 className="mt-4 text-3xl font-semibold tracking-tight sm:text-4xl">Three calm steps. Full ownership.</h2>
-          <p className="mt-4 text-base text-slate-400 sm:text-lg">
-            A simple front door — rigorous execution behind it.
+    <section ref={rootRef} className="cw-home-band border-t border-white/10 bg-slate-900/50 py-20 text-white sm:py-28">
+      <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="hiw-reveal mx-auto max-w-3xl text-center">
+          <p className="cw-home-eyebrow text-xs font-semibold uppercase tracking-[0.18em] text-slate-400">How it works</p>
+          <h2 className="mt-3 text-3xl font-semibold tracking-tight sm:text-4xl">A clear process from enquiry to completion</h2>
+          <p className="mx-auto mt-4 max-w-2xl text-base leading-relaxed text-slate-400">
+            Every engagement follows the same disciplined workflow — so you always know what happens next.
           </p>
         </div>
 
-        <div className="hiw-track relative mt-16 hidden px-8 md:block">
-          <div className="hiw-line absolute left-8 right-8 top-7 h-px bg-linear-to-r from-indigo-500/40 via-cyan-400/50 to-indigo-500/40" />
+        <div className="hiw-reveal relative mt-14 lg:mt-16">
+          <div
+            className="cw-hiw-connector pointer-events-none absolute left-[16.666%] right-[16.666%] top-5 hidden h-px lg:block"
+            aria-hidden
+          />
+
+          <ol className="grid gap-8 md:grid-cols-3 md:gap-6 lg:gap-10">
+            {steps.map((step) => (
+              <li key={step.number} className="relative text-center md:text-left">
+                <div className="cw-home-step mx-auto flex h-10 w-10 items-center justify-center rounded-full border border-white/15 bg-white/5 text-xs font-bold tracking-wide text-cyan-300 md:mx-0">
+                  {step.number}
+                </div>
+
+                <h3 className="mt-6 text-lg font-semibold text-white sm:text-xl">{step.title}</h3>
+                <p className="mt-3 text-sm leading-relaxed text-slate-400 sm:text-[15px]">{step.description}</p>
+              </li>
+            ))}
+          </ol>
         </div>
 
-        <div className="hiw-steps mt-10 grid gap-8 md:mt-6 md:grid-cols-3 md:gap-6">
-          {steps.map((step) => (
-            <article
-              key={step.number}
-              className="hiw-step relative rounded-2xl border border-white/10 bg-white/5 p-6 backdrop-blur-sm md:pt-10"
-            >
-              <span className="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-linear-to-br from-indigo-500 to-cyan-400 text-sm font-bold text-white shadow-lg shadow-indigo-950/50">
-                {step.number}
-              </span>
-              <h3 className="mt-5 text-xl font-semibold">{step.title}</h3>
-              <p className="mt-2 text-sm leading-relaxed text-slate-400">{step.description}</p>
-            </article>
-          ))}
+        <div className="cw-home-card hiw-reveal mx-auto mt-14 max-w-3xl rounded-xl border border-white/10 bg-white/5 px-6 py-5 text-center sm:px-8">
+          <p className="text-sm leading-relaxed text-slate-400">
+            <span className="font-medium text-slate-200">Typical turnaround:</span> most standard registrations and
+            filings are initiated within 2–5 business days after documents are received.
+          </p>
         </div>
       </div>
     </section>

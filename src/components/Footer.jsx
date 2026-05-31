@@ -1,23 +1,26 @@
 import { NavLink } from 'react-router-dom'
 import { useTheme } from '../context/ThemeContext'
-import { getWhatsAppChatUrl } from '../utils/whatsapp'
+import { getServiceDetailPath } from '../utils/serviceSlug'
 
 const footerColumns = [
   {
     title: 'Services',
     links: [
-      { label: 'Company Registration', to: '/services' },
-      { label: 'GST Filing', to: '/services' },
-      { label: 'Income Tax', to: '/services' },
-      { label: 'Trademark Registration', to: '/services' },
+      { label: 'Company Registration', to: '/services?category=Startup' },
+      { label: 'GST Filing', to: '/services?category=GST' },
+      { label: 'Income Tax', to: '/services?category=Income%20Tax' },
+      {
+        label: 'Trademark Registration',
+        to: getServiceDetailPath('Trademark', 'Trademark Registration'),
+      },
     ],
   },
   {
     title: 'Company',
     links: [
       { label: 'About Us', to: '/about-us' },
-      { label: 'Careers', to: '#' },
-      { label: 'Blog', to: '#' },
+      { label: 'Careers', to: '/contact-us' },
+      { label: 'Blog', to: '/about-us' },
       { label: 'Contact', to: '/contact-us' },
     ],
   },
@@ -78,15 +81,9 @@ const Footer = () => {
             <ul className="mt-4 space-y-2">
               {column.links.map((item) => (
                 <li key={item.label}>
-                  {item.to.startsWith('/') ? (
-                    <NavLink to={item.to} className={linkItemClass}>
-                      {item.label}
-                    </NavLink>
-                  ) : (
-                    <a href={item.to} className={linkItemClass}>
-                      {item.label}
-                    </a>
-                  )}
+                  <NavLink to={item.to} className={linkItemClass}>
+                    {item.label}
+                  </NavLink>
                 </li>
               ))}
             </ul>

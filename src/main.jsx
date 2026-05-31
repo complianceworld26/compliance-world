@@ -6,12 +6,14 @@ import App from './App.jsx'
 import { ThemeProvider } from './context/ThemeContext.jsx'
 import { AuthProvider } from './context/AuthContext.jsx'
 import { GtagRouteTracker } from './components/GtagRouteTracker.jsx'
+import ScrollToTop from './components/ScrollToTop.jsx'
 import WhatsAppChatButton from './components/WhatsAppChatButton.jsx'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <ThemeProvider>
       <BrowserRouter>
+        <ScrollToTop />
         <GtagRouteTracker />
         <AuthProvider>
           <App />

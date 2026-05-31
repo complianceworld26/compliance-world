@@ -83,7 +83,7 @@ const InsightsSection = () => {
           className="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between"
         >
           <div className="max-w-xl">
-            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-cyan-300/90">Insights</p>
+            <p className="cw-home-eyebrow text-xs font-semibold uppercase tracking-[0.2em] text-cyan-300/90">Insights</p>
             <h2 className="mt-3 text-3xl font-semibold tracking-tight sm:text-4xl">Guides for sharp operators</h2>
             <p className="mt-3 text-sm text-slate-400 sm:text-base">
               Short reads on the compliance decisions that compound — not generic checklists.
@@ -101,7 +101,7 @@ const InsightsSection = () => {
           {posts.map((post) => (
             <article
               key={post.title}
-              className="ins-card group flex flex-col rounded-2xl border border-white/10 bg-white/5 p-6 backdrop-blur-sm transition hover:border-white/20 hover:bg-white/10"
+              className="cw-home-card ins-card group flex flex-col rounded-2xl border border-white/10 bg-white/5 p-6 backdrop-blur-sm transition hover:border-white/20 hover:bg-white/10"
             >
               <span className="w-fit rounded-full bg-cyan-400/15 px-3 py-1 text-[11px] font-semibold uppercase tracking-wider text-cyan-200">
                 {post.tag}

@@ -5,7 +5,6 @@ import Navbar from '../../components/Navbar'
 import Footer from '../../components/Footer'
 import { ServiceWhyCallout } from '../../components/ServiceWhyCallout'
 import { getServiceContent } from '../../data/serviceContentData'
-import { getServicePricing } from '../../data/servicePricingData'
 import { serviceCategories } from '../../data/servicesData'
 import { extractTocFromBlocks, parseFormattedBlocks } from '../../utils/formatServiceContent'
 import { getServiceDetailPath, resolveServiceFromSlugs } from '../../utils/serviceSlug'
@@ -147,7 +146,6 @@ const ServiceDetail = () => {
         }))
 
   const orderHref = `/order?category=${encodeURIComponent(category)}&service=${encodeURIComponent(service)}`
-  const activePackages = getServicePricing(category, service)
 
   return (
     <>
@@ -173,92 +171,23 @@ const ServiceDetail = () => {
               <span className="text-blue-300/50">/</span>
               <span className="font-semibold text-cyan-300">{service}</span>
             </nav>
-            <div className="grid gap-8 lg:grid-cols-[1.2fr_0.8fr] lg:items-end">
-              <div>
-                <p className="text-xs uppercase tracking-[0.2em] text-indigo-300">{category}</p>
-                <h1 className="mt-3 break-words text-2xl font-semibold tracking-tight sm:text-4xl lg:text-5xl">
-                  {content?.heroTitle || service}
-                </h1>
-                <p className="mt-4 max-w-3xl text-sm text-blue-100 sm:text-base">
-                  {content?.heroSubtitle || 'Service details will be added from your document content.'}
-                </p>
-              </div>
-
-              <div className="rounded-2xl border border-white/15 bg-white/5 p-5 backdrop-blur-sm">
-                <p className="text-xs font-semibold uppercase tracking-wider text-blue-200/90">Starting package</p>
-                <p className="mt-2 text-3xl font-bold text-white">{content?.priceText || 'Pricing available on request'}</p>
-                <NavLink
-                  to={orderHref}
-                  className="mt-4 inline-flex w-full items-center justify-center rounded-xl bg-linear-to-r from-cyan-500 to-blue-600 px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:from-cyan-400 hover:to-blue-500"
-                >
-                  Get Started
-                </NavLink>
-              </div>
+            <div className="max-w-3xl">
+              <p className="text-xs uppercase tracking-[0.2em] text-indigo-300">{category}</p>
+              <h1 className="mt-3 break-words text-2xl font-semibold tracking-tight sm:text-4xl lg:text-5xl">
+                {content?.heroTitle || service}
+              </h1>
+              <p className="mt-4 max-w-3xl text-sm text-blue-100 sm:text-base">
+                {content?.heroSubtitle || 'Service details will be added from your document content.'}
+              </p>
+              <NavLink
+                to={orderHref}
+                className="mt-6 inline-flex items-center justify-center rounded-xl bg-linear-to-r from-cyan-500 to-blue-600 px-5 py-3 text-sm font-semibold text-white transition-colors hover:from-cyan-400 hover:to-blue-500"
+              >
+                Get Started
+              </NavLink>
             </div>
           </div>
         </motion.section>
-        
-
-        {activePackages.length > 0 ? (
-          <section className="border-b border-white/10 py-12 sm:py-14">
-            <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
-              <h3 className="text-2xl font-bold tracking-tight text-white">Simple packages. Transparent pricing.</h3>
-              <p className="mt-2 text-sm text-blue-100/80">
-                Choose the package that fits your {service.toLowerCase()} requirements.
-              </p>
-
-              <div className="mt-6 grid gap-5 md:grid-cols-2 xl:grid-cols-3">
-                {activePackages.map((pkg, index) => (
-                  <motion.article
-                    key={pkg.name}
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true, amount: 0.25 }}
-                    transition={{ duration: 0.42, delay: Math.min(index * 0.06, 0.2), ease: 'easeOut' }}
-                    className="group relative overflow-hidden rounded-2xl border border-white/12 bg-linear-to-b from-white/8 to-white/4 p-6 shadow-xl shadow-black/25 backdrop-blur-sm transition-all duration-300 hover:-translate-y-1 hover:border-cyan-300/35"
-                  >
-                    <div className="absolute inset-x-0 top-0 h-1 bg-linear-to-r from-cyan-300 to-blue-500 opacity-90" />
-                    <div className="mb-4 flex items-center justify-between gap-3">
-                      <h4 className="text-lg font-semibold text-white">{pkg.name}</h4>
-                      {index === 1 ? (
-                        <span className="rounded-full border border-cyan-300/50 bg-cyan-400/10 px-2.5 py-1 text-[11px] font-semibold text-cyan-200">
-                          Popular
-                        </span>
-                      ) : null}
-                    </div>
-
-                    <p className="text-sm leading-6 text-blue-100/80">{pkg.description}</p>
-
-                    <div className="mt-5 rounded-xl border border-cyan-300/20 bg-linear-to-r from-cyan-500/10 to-blue-500/10 p-4">
-                      <p className="text-[11px] font-semibold uppercase tracking-wider text-cyan-100/80">Starting at</p>
-                      <p className="mt-1 text-3xl font-bold text-white">{pkg.price}</p>
-                      <p className="mt-1 text-xs text-blue-100/65">+ GST | Govt. fee extra</p>
-                    </div>
-
-                    <p className="mt-5 text-sm font-semibold text-white">What's included</p>
-                    <ul className="mt-3 space-y-2.5">
-                      {pkg.includes.map((item) => (
-                        <li key={`${pkg.name}-${item}`} className="flex items-start gap-2 text-sm text-blue-100/85">
-                          <span className="mt-1 text-cyan-300">✓</span>
-                          <span>{item}</span>
-                        </li>
-                      ))}
-                    </ul>
-
-                    <motion.div whileHover={{ y: -2 }} whileTap={{ scale: 0.985 }}>
-                      <NavLink
-                        to={orderHref}
-                        className="mt-6 inline-flex w-full items-center justify-center rounded-xl bg-linear-to-r from-cyan-500 to-blue-600 px-4 py-3 text-sm font-semibold text-white transition-all duration-200 hover:from-cyan-400 hover:to-blue-500"
-                      >
-                        Register Now
-                      </NavLink>
-                    </motion.div>
-                  </motion.article>
-                ))}
-              </div>
-            </div>
-          </section>
-        ) : null}
 
         <section className="py-12 sm:py-16">
           <div className="mx-auto flex w-full max-w-7xl flex-col gap-10 px-4 sm:px-6 lg:flex-row lg:items-start lg:gap-12 lg:px-8">

@@ -1,20 +1,20 @@
 import complianceChunks from './Txt content/Compliance.json'
 import gstChunks from './Txt content/GST.json'
-import globalChunks from './Txt content/Global.json'
 import incomeTaxChunks from './Txt content/Incometax.json'
 import mcaChunks from './Txt content/MCA.json'
 import registrationChunks from './Txt content/Registration.json'
 import startupChunks from './Txt content/startup.json'
+import trademarkChunks from './Txt content/Trademark.json'
 import { serviceCategories } from './servicesData'
 
 const startupServices = serviceCategories.find((item) => item.label === 'Startup')?.options ?? []
 const registrationServices =
   serviceCategories.find((item) => item.label === 'Registration')?.options ?? []
+const trademarkServices = serviceCategories.find((item) => item.label === 'Trademark')?.options ?? []
 const gstServices = serviceCategories.find((item) => item.label === 'GST')?.options ?? []
 const incomeTaxServices = serviceCategories.find((item) => item.label === 'Income Tax')?.options ?? []
 const mcaServices = serviceCategories.find((item) => item.label === 'MCA')?.options ?? []
 const complianceServices = serviceCategories.find((item) => item.label === 'Compliance')?.options ?? []
-const globalServices = serviceCategories.find((item) => item.label === 'Global')?.options ?? []
 
 /**
  * startup.json: intro, long article ("Simple packages…"), FAQ.
@@ -122,9 +122,22 @@ const buildOrderedServiceChunkMap = (chunks, serviceNames) => {
 const INCOME_TAX_SERVICE_CHUNKS = buildOrderedServiceChunkMap(incomeTaxChunks, incomeTaxServices)
 const MCA_SERVICE_CHUNKS = buildOrderedServiceChunkMap(mcaChunks, mcaServices)
 const COMPLIANCE_SERVICE_CHUNKS = buildOrderedServiceChunkMap(complianceChunks, complianceServices)
-const GLOBAL_SERVICE_CHUNKS = buildOrderedServiceChunkMap(globalChunks, globalServices)
+const TRADEMARK_SERVICE_CHUNKS = buildOrderedServiceChunkMap(trademarkChunks, trademarkServices)
 
 const stripInlineBold = (text) => text.replace(/\*\*([^*]+)\*\*/g, '$1')
+
+const isPackageBoilerplateLine = (line) => {
+  const t = line.trim()
+  if (!t) return true
+  if (/^simple packages\.?\s*transparent pricing\.?$/i.test(t)) return true
+  if (/^(file now|apply now)$/i.test(t)) return true
+  if (/^video showcasing compliance world journey and services$/i.test(t)) return true
+  if (/^load more questions$/i.test(t)) return true
+  if (/^common questions about .+$/i.test(t)) return true
+  return false
+}
+
+const cleanServiceLines = (lines) => lines.filter((line) => !isPackageBoilerplateLine(line))
 
 const normalizeMarkdownLine = (line) => {
   let s = line.trim()
@@ -182,10 +195,10 @@ const parseWhySection = (markdownParts) => {
 
   const first = lines[0]
   if (/^why\s/i.test(first)) {
-    return { whyTitle: first, whyParagraphs: lines.slice(1) }
+    return { whyTitle: first, whyParagraphs: cleanServiceLines(lines.slice(1)) }
   }
 
-  return { whyTitle: null, whyParagraphs: lines }
+  return { whyTitle: null, whyParagraphs: cleanServiceLines(lines) }
 }
 
 const pickHeroTitle = (lines, serviceName) => {
@@ -226,12 +239,13 @@ const buildFromChunkIndices = (chunks, indices, serviceName) => {
   const fullMarkdown = parts.join('\n\n')
   const allLines = markdownToParagraphLines(fullMarkdown)
   const { bodyParagraphs, faqItems } = extractFaqFromParagraphs(allLines)
+  const paragraphs = cleanServiceLines(bodyParagraphs)
 
   return {
-    heroTitle: pickHeroTitle(bodyParagraphs, serviceName),
-    heroSubtitle: pickHeroSubtitle(bodyParagraphs),
-    fullText: bodyParagraphs.join('\n'),
-    paragraphs: bodyParagraphs,
+    heroTitle: pickHeroTitle(paragraphs, serviceName),
+    heroSubtitle: pickHeroSubtitle(paragraphs),
+    fullText: paragraphs.join('\n'),
+    paragraphs,
     faqItems,
   }
 }
@@ -349,15 +363,15 @@ const parseComplianceSections = () => {
   return parsed
 }
 
-const buildGlobalEntry = (serviceName) => {
-  const spec = GLOBAL_SERVICE_CHUNKS[serviceName]
-  return buildEntryFromSpec(globalChunks, spec, serviceName)
+const buildTrademarkEntry = (serviceName) => {
+  const spec = TRADEMARK_SERVICE_CHUNKS[serviceName]
+  return buildEntryFromSpec(trademarkChunks, spec, serviceName)
 }
 
-const parseGlobalSections = () => {
+const parseTrademarkSections = () => {
   const parsed = {}
-  globalServices.forEach((serviceName) => {
-    parsed[serviceName] = buildGlobalEntry(serviceName)
+  trademarkServices.forEach((serviceName) => {
+    parsed[serviceName] = buildTrademarkEntry(serviceName)
   })
   return parsed
 }
@@ -365,11 +379,11 @@ const parseGlobalSections = () => {
 export const serviceContentData = {
   Startup: parseStartupSections(),
   Registration: parseRegistrationSections(),
+  Trademark: parseTrademarkSections(),
   GST: parseGstSections(),
   'Income Tax': parseIncomeTaxSections(),
   MCA: parseMcaSections(),
   Compliance: parseComplianceSections(),
-  Global: parseGlobalSections(),
 }
 
 export const getServiceContent = (category, service) => {

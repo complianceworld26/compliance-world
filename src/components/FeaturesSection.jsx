@@ -55,7 +55,7 @@ const FeaturesSection = () => {
       <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="grid gap-14 lg:grid-cols-12 lg:items-start">
           <div className="feat-head lg:col-span-5">
-            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-cyan-300/90">Why teams stay</p>
+            <p className="cw-home-eyebrow text-xs font-semibold uppercase tracking-[0.2em] text-cyan-300/90">Why teams stay</p>
             <h2 className="mt-4 text-3xl font-semibold tracking-tight text-white sm:text-4xl">
               Built for operators who cannot afford misses
             </h2>
@@ -69,9 +69,9 @@ const FeaturesSection = () => {
             {pillars.map((item) => (
               <article
                 key={item.title}
-                className="feat-card rounded-2xl border border-white/10 bg-white/5 p-6 transition-colors hover:border-indigo-300/40 hover:bg-white/10"
+                className="cw-home-card feat-card rounded-2xl border border-white/10 bg-white/5 p-6 transition-colors hover:border-indigo-300/40 hover:bg-white/10"
               >
-                <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-indigo-500/30 text-xs font-bold text-indigo-100">
+                <div className="cw-home-badge flex h-9 w-9 items-center justify-center rounded-lg bg-indigo-500/30 text-xs font-bold text-indigo-100">
                   ✓
                 </div>
                 <h3 className="mt-4 text-lg font-semibold text-white">{item.title}</h3>

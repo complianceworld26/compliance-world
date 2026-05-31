@@ -59,7 +59,7 @@ const FaqSection = () => {
     <section ref={rootRef} id="faq" className="bg-slate-950 py-24 sm:py-28">
       <div className="mx-auto w-full max-w-3xl px-4 sm:px-6 lg:px-8">
         <div className="faq-head text-center">
-          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-cyan-300/90">FAQ</p>
+          <p className="cw-home-eyebrow text-xs font-semibold uppercase tracking-[0.2em] text-cyan-300/90">FAQ</p>
           <h2 className="mt-4 text-3xl font-semibold tracking-tight text-white sm:text-4xl">
             Answers before you ask
           </h2>
@@ -72,7 +72,7 @@ const FaqSection = () => {
           {faqs.map((item, i) => {
             const isOpen = open === i
             return (
-              <li key={item.q} className="faq-item overflow-hidden rounded-2xl border border-white/10 bg-white/5">
+              <li key={item.q} className="cw-home-card faq-item overflow-hidden rounded-2xl border border-white/10 bg-white/5">
                 <button
                   type="button"
                   className="flex w-full items-center justify-between gap-4 px-5 py-4 text-left transition hover:bg-white/10 sm:px-6 sm:py-5"

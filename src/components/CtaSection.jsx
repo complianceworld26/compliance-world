@@ -11,21 +11,12 @@ const CtaSection = () => {
 
     const ctx = gsap.context(() => {
       gsap.from('.cta-inner > *', {
-        y: 28,
+        y: 16,
         opacity: 0,
-        duration: 0.7,
-        stagger: 0.12,
-        ease: 'power3.out',
-        scrollTrigger: { trigger: '.cta-inner', start: 'top 82%' },
-      })
-
-      gsap.to('.cta-glow', {
-        opacity: 0.55,
-        scale: 1.05,
-        duration: 3.5,
-        repeat: -1,
-        yoyo: true,
-        ease: 'sine.inOut',
+        duration: 0.5,
+        stagger: 0.07,
+        ease: 'power2.out',
+        scrollTrigger: { trigger: root, start: 'top 88%', once: true },
       })
     }, root)
 
@@ -33,23 +24,34 @@ const CtaSection = () => {
   }, [])
 
   return (
-    <section ref={rootRef} className="relative overflow-hidden bg-slate-950 py-24 sm:py-28">
-      <div className="cta-glow pointer-events-none absolute left-1/2 top-1/2 h-112 w-md -translate-x-1/2 -translate-y-1/2 rounded-full bg-indigo-500/25 blur-[100px] opacity-40" />
+    <section ref={rootRef} className="relative border-t border-white/8 bg-slate-950 py-16 sm:py-20">
+      <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="cw-home-cta cta-inner flex flex-col gap-8 rounded-2xl border border-white/10 bg-white/[0.02] px-6 py-8 sm:px-8 sm:py-10 lg:flex-row lg:items-center lg:justify-between lg:gap-12">
+          <div className="max-w-xl">
+            <p className="cw-home-eyebrow text-[11px] font-semibold uppercase tracking-[0.22em] text-cyan-400/90">Get started</p>
+            <h2 className="mt-3 text-2xl font-semibold leading-snug tracking-tight text-white sm:text-3xl">
+              Tell us what you need filed next
+            </h2>
+            <p className="mt-3 text-sm leading-relaxed text-slate-400 sm:text-[15px]">
+              Share your requirement and we&apos;ll outline the steps, documents, and timeline — with one team handling
+              it through to completion.
+            </p>
+          </div>
 
-      <div className="relative mx-auto w-full max-w-4xl px-4 text-center sm:px-6 lg:px-8">
-        <div className="cta-inner rounded-3xl border border-white/10 bg-white/5 px-6 py-14 shadow-xl shadow-slate-950/40 sm:px-10 sm:py-16">
-          <h2 className="text-3xl font-semibold tracking-tight text-white sm:text-4xl">
-            Ready for a calmer compliance year?
-          </h2>
-          <p className="mx-auto mt-4 max-w-2xl text-base leading-relaxed text-slate-400 sm:text-lg">
-            Tell us what you are filing next — we will return a clear plan, timeline, and single owner for delivery.
-          </p>
-          <NavLink
-            to="/contact-us"
-            className="mt-8 inline-flex rounded-xl bg-slate-900 px-8 py-3.5 text-sm font-semibold text-white shadow-lg shadow-slate-900/25 transition hover:bg-indigo-700"
-          >
-            Talk to us
-          </NavLink>
+          <div className="flex shrink-0 flex-col gap-3 sm:flex-row lg:flex-col xl:flex-row">
+            <NavLink
+              to="/contact-us"
+              className="inline-flex items-center justify-center rounded-lg border border-cyan-400/35 bg-cyan-500/10 px-5 py-3 text-sm font-semibold text-white transition-colors hover:border-cyan-400/50 hover:bg-cyan-500/15"
+            >
+              Contact us
+            </NavLink>
+            <NavLink
+              to="/services"
+              className="inline-flex items-center justify-center rounded-lg border border-white/12 bg-white/5 px-5 py-3 text-sm font-medium text-slate-200 transition-colors hover:border-white/20 hover:bg-white/10 hover:text-white"
+            >
+              Browse services
+            </NavLink>
+          </div>
         </div>
       </div>
     </section>
