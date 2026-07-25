@@ -1,6 +1,7 @@
 import { NavLink } from 'react-router-dom'
 import { useTheme } from '../context/ThemeContext'
 import { getServiceDetailPath } from '../utils/serviceSlug'
+import { PHONE_NUMBERS } from '../data/contactInfo'
 
 const footerColumns = [
   {
@@ -70,7 +71,17 @@ const Footer = () => {
           </p>
           <div className={contactClass}>
             <p>Email: info@complianceworld.in</p>
-            <p>Phone: +91 9205212179</p>
+            <p>
+              Phone:{' '}
+              {PHONE_NUMBERS.map((phone, index) => (
+                <span key={phone.digits}>
+                  {index > 0 ? ' / ' : ''}
+                  <a href={phone.href} className={isLight ? linkHover : linkHoverDark}>
+                    {phone.display}
+                  </a>
+                </span>
+              ))}
+            </p>
             <p>Address: 10 A, 5/10 Vikas Puri Etension, New Delhi : 110041</p>
           </div>
         </div>

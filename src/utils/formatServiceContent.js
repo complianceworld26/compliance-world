@@ -20,7 +20,7 @@ export const parseFormattedBlocks = (lines) => {
   }
 
   const isOrderedItem = (line) => /^\d+\.\s+/.test(line)
-  const isUnorderedItem = (line) => /^[•\-–—*]\s+/.test(line)
+  const isUnorderedItem = (line) => /^[•\-–, *]\s+/.test(line)
 
   const looksLikeHeading = (line, prevLine, nextLine) => {
     if (!line || line.length > 140) return false
@@ -56,7 +56,7 @@ export const parseFormattedBlocks = (lines) => {
     if (isUnorderedItem(line)) {
       const items = []
       while (i < lines.length && isUnorderedItem(lines[i])) {
-        items.push(lines[i].replace(/^[•\-–—*]\s+/, '').trim())
+        items.push(lines[i].replace(/^[•\-–, *]\s+/, '').trim())
         i += 1
       }
       blocks.push({ type: 'ul', items })

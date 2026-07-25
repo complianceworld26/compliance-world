@@ -50,8 +50,8 @@ const Order = () => {
 
     setIsSending(true)
     try {
-      const subject = `Order: ${selectedCategoryData.label} — ${selectedService || selectedServiceText}`
-      const body = `${message}\n\n— Category: ${selectedCategoryData.label}\n— Service: ${selectedService || '(not specified)'}`
+      const subject = `Order: ${selectedCategoryData.label}, ${selectedService || selectedServiceText}`
+      const body = `${message}\n\nCategory: ${selectedCategoryData.label}\nService: ${selectedService || '(not specified)'}`
 
       await submitContact({
         name,

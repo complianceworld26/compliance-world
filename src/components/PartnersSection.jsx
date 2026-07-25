@@ -46,7 +46,7 @@ const PartnersSection = () => {
         <div className="part-head text-center">
           <p className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-400">Trusted by teams at</p>
           <p className="mx-auto mt-3 max-w-lg text-sm text-slate-400">
-            From funded startups to growing mid-market brands — one compliance rhythm across portfolios.
+            From funded startups to growing mid-market brands, one compliance rhythm across portfolios.
           </p>
         </div>
 

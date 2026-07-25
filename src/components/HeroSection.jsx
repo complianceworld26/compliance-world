@@ -1,4 +1,5 @@
 import { useLayoutEffect, useRef } from 'react'
+import { NavLink } from 'react-router-dom'
 import { gsap } from '../lib/gsap'
 import hero1 from '../Assets/hero/hero1.png'
 import hero2 from '../Assets/hero/hero2.png'
@@ -90,23 +91,23 @@ const HeroSection = () => {
           </h1>
 
           <p className="hero-sub max-w-lg text-base leading-relaxed text-slate-400 sm:text-lg">
-            Registration, GST, tax, ROC, and payroll — orchestrated in one calm workspace with experts who
+            Registration, GST, tax, ROC, and payroll, orchestrated in one calm workspace with experts who
             own the details.
           </p>
 
-          <div className="flex flex-wrap gap-3 pt-1">
-            <a
-              href="#contact"
-              className="hero-cta inline-flex rounded-xl bg-white px-6 py-3.5 text-sm font-semibold text-slate-900 shadow-lg shadow-indigo-950/40 transition hover:bg-slate-100"
+          <div className="flex flex-wrap items-center gap-3 pt-1">
+            <NavLink
+              to="/contact-us"
+              className="hero-cta hero-cta-primary inline-flex items-center justify-center rounded-xl bg-[#1a3a78] px-7 py-3.5 text-sm font-semibold text-white shadow-lg shadow-[#1a3a78]/35 transition hover:bg-[#1e40af]"
             >
-              Get started
-            </a>
-            <a
-              href="#services"
-              className="hero-cta inline-flex rounded-xl border border-white/15 bg-white/5 px-6 py-3.5 text-sm font-semibold text-white backdrop-blur-sm transition hover:border-white/25 hover:bg-white/10"
+              Talk to an expert
+            </NavLink>
+            <NavLink
+              to="/services"
+              className="hero-cta hero-cta-secondary inline-flex items-center justify-center rounded-xl border border-white/15 bg-white/5 px-7 py-3.5 text-sm font-semibold text-white backdrop-blur-sm transition hover:border-white/25 hover:bg-white/10"
             >
-              View services
-            </a>
+              Browse services
+            </NavLink>
           </div>
 
           <div className="hero-float flex flex-wrap gap-6 border-t border-white/10 pt-8 text-sm text-slate-500">
@@ -143,7 +144,7 @@ const HeroSection = () => {
                       Government-aligned compliance
                     </p>
                     <p className="mt-1 max-w-[16rem] text-lg font-semibold leading-snug text-white sm:text-xl">
-                      MCA, GST, ROC & tax filings — done right
+                      MCA, GST, ROC & tax filings, done right
                     </p>
                   </div>
                   <span className="shrink-0 rounded-full bg-emerald-500/20 px-3 py-1.5 text-xs font-semibold text-emerald-200 ring-1 ring-emerald-400/30">

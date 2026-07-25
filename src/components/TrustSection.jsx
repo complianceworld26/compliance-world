@@ -17,7 +17,7 @@ const testimonials = [
   {
     name: 'Naina Gupta',
     role: 'Director, Bloom Retail',
-    quote: 'Proactive reminders and expert handling — we have not missed a filing window since.',
+    quote: 'Proactive reminders and expert handling, we have not missed a filing window since.',
   },
   {
     name: 'Rahul Verma',
@@ -98,7 +98,7 @@ const TrustSection = () => {
         <div className="mt-20">
           <h3 className="text-center text-2xl font-semibold text-white sm:text-3xl">What clients say</h3>
           <p className="mx-auto mt-3 max-w-xl text-center text-sm text-slate-400 sm:text-base">
-            Teams that need velocity with governance — without sacrificing sleep.
+            Teams that need velocity with governance, without sacrificing sleep.
           </p>
           <div className="trust-quotes mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {testimonials.map((item) => (

@@ -12,7 +12,7 @@ const faqs = [
   },
   {
     q: 'How do you handle document security?',
-    a: 'Encrypted intake, role-based access, and retained audit logs. We only request what the filing requires — nothing extra in shared drives.',
+    a: 'Encrypted intake, role-based access, and retained audit logs. We only request what the filing requires, nothing extra in shared drives.',
   },
   {
     q: 'Can we move an existing compliance stack to you mid-year?',
@@ -20,7 +20,7 @@ const faqs = [
   },
   {
     q: 'What does pricing typically include?',
-    a: 'Scoped deliverables per service — preparation, filing, acknowledgments, and a close-out summary. Renewals are quoted before each cycle.',
+    a: 'Scoped deliverables per service, preparation, filing, acknowledgments, and a close-out summary. Renewals are quoted before each cycle.',
   },
 ]
 

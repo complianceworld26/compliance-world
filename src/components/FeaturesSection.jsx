@@ -4,7 +4,7 @@ import { gsap } from '../lib/gsap'
 const pillars = [
   {
     title: 'Single accountable team',
-    body: 'One pod owns your filings end-to-end — no ticket roulette or handoffs that stall progress.',
+    body: 'One pod owns your filings end-to-end, no ticket roulette or handoffs that stall progress.',
   },
   {
     title: 'Deadline intelligence',
@@ -16,7 +16,7 @@ const pillars = [
   },
   {
     title: 'Transparent pricing',
-    body: 'Scoped proposals and predictable renewals — you always know what ships in each cycle.',
+    body: 'Scoped proposals and predictable renewals, you always know what ships in each cycle.',
   },
 ]
 
@@ -60,7 +60,7 @@ const FeaturesSection = () => {
               Built for operators who cannot afford misses
             </h2>
             <p className="mt-4 max-w-md text-base leading-relaxed text-slate-400">
-              We combine process discipline with human judgment — so compliance feels like a capability, not a
+              We combine process discipline with human judgment, so compliance feels like a capability, not a
               chore list.
             </p>
           </div>

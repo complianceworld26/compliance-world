@@ -300,7 +300,7 @@
   color: #0f172a !important;
 }
 
-/* Order + Contact — scoped form panels in light theme */
+/* Order + Contact, scoped form panels in light theme */
 [data-theme="light"] [data-appearance="dark"] .cw-order-page [class*="bg-slate-950/40"],
 [data-theme="light"] [data-appearance="dark"] .cw-contact-page [class*="bg-slate-950/40"] {
   background-color: rgba(241, 245, 249, 0.92) !important;
@@ -326,7 +326,7 @@
   box-shadow: 0 0 0 1px rgba(30, 64, 175, 0.25);
 }
 
-/* Home section dividers — short hairline, inset from viewport (rail padding), minimal vertical gap */
+/* Home section dividers, short hairline, inset from viewport (rail padding), minimal vertical gap */
 .cw-section-divide-wrap {
   flex-shrink: 0;
   background: transparent;
@@ -468,7 +468,7 @@
   ) !important;
 }
 
-/* ── Home light theme — navy blue palette (matches logo) ── */
+/* ── Home light theme, navy blue palette (matches logo) ── */
 [data-theme="light"] [data-appearance="dark"].cw-home {
   background: linear-gradient(
     180deg,
@@ -574,7 +574,7 @@
   ) !important;
 }
 
-/* Hero — light mode depth */
+/* Hero, light mode depth */
 [data-theme="light"] [data-appearance="dark"].cw-home #home.bg-slate-950 {
   background: linear-gradient(
     145deg,
@@ -621,6 +621,17 @@
 [data-theme="light"] [data-appearance="dark"].cw-home .hero-cta[class*="bg-white/5"]:hover {
   background: linear-gradient(165deg, #ffffff, #dbeafe) !important;
   border-color: rgba(30, 64, 175, 0.32) !important;
+}
+
+[data-theme="light"] [data-appearance="dark"].cw-home .hero-cta-primary {
+  background-color: var(--cw-brand-navy) !important;
+  color: #ffffff !important;
+  box-shadow: 0 8px 24px rgba(26, 58, 120, 0.28) !important;
+}
+
+[data-theme="light"] [data-appearance="dark"].cw-home .hero-cta-primary:hover {
+  background-color: var(--cw-brand-navy-mid, #1e40af) !important;
+  color: #ffffff !important;
 }
 
 [data-theme="light"] [data-appearance="dark"].cw-home a[class*="border-cyan-400/"][class*="bg-cyan-500/10"] {

@@ -112,19 +112,20 @@ const Navbar = () => {
     : 'sticky top-0 z-50 border-b border-white/10 bg-slate-950/85 shadow-sm shadow-black/20 backdrop-blur-xl supports-[backdrop-filter]:bg-slate-950/75'
 
   const brandClass = isLight
-    ? 'inline-flex shrink-0 items-center gap-2.5 text-base font-bold tracking-tight text-[#1a3a78] transition-colors duration-200 hover:text-[#1e40af] sm:text-lg'
-    : 'inline-flex shrink-0 items-center gap-2.5 text-base font-bold tracking-tight text-white transition-colors duration-200 hover:text-cyan-200 sm:text-lg'
+    ? 'inline-flex shrink-0 items-center gap-2.5 text-base font-bold tracking-tight text-[#1a3a78] transition-colors duration-200 hover:text-[#1e40af] sm:gap-3 sm:text-lg'
+    : 'inline-flex shrink-0 items-center gap-2.5 text-base font-bold tracking-tight text-white transition-colors duration-200 hover:text-cyan-200 sm:gap-3 sm:text-lg'
 
-  const brandLogoClass = `h-9 w-9 shrink-0 object-contain sm:h-10 sm:w-10 ${isLight ? '' : 'brightness-0 invert'}`
+  const brandLogoClass = `h-10 w-10 shrink-0 object-contain sm:h-11 sm:w-11 ${isLight ? '' : 'brightness-0 invert'}`
 
-  const navRailClass = 'hidden min-w-0 flex-1 justify-center self-center px-1 lg:flex'
+  const pillClass = isLight
+    ? 'inline-flex max-w-full flex-nowrap items-center gap-1 rounded-full border border-slate-200 bg-slate-50/80 p-1.5 shadow-sm'
+    : 'inline-flex max-w-full flex-nowrap items-center gap-1 rounded-full border border-white/10 bg-white/[0.06] p-1.5 shadow-inner shadow-white/5 backdrop-blur-md'
 
-  const navScrollPillClass = isLight
-    ? 'flex w-full min-w-0 max-w-full flex-nowrap items-center gap-0.5 overflow-x-auto overflow-y-hidden overscroll-x-contain rounded-full border border-slate-200 bg-white p-1 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden'
-    : 'flex w-full min-w-0 max-w-full flex-nowrap items-center gap-0.5 overflow-x-auto overflow-y-hidden overscroll-x-contain rounded-full border border-white/10 bg-white/[0.06] p-1 shadow-inner shadow-white/5 backdrop-blur-md [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden'
+  const chipBase =
+    'shrink-0 whitespace-nowrap rounded-full px-2.5 py-2 text-xs font-semibold leading-none transition-all duration-200 xl:px-3 xl:text-[13px] 2xl:px-3.5 2xl:text-sm'
 
   const linkIdle = isLight
-    ? 'text-slate-600 hover:bg-slate-100 hover:text-slate-900'
+    ? 'text-slate-600 hover:bg-white hover:text-slate-900 hover:shadow-sm'
     : 'text-slate-300 hover:bg-white/10 hover:text-cyan-100'
 
   const linkActive = isLight
@@ -148,20 +149,20 @@ const Navbar = () => {
     : 'block rounded-xl bg-white px-3 py-2 text-center text-xs font-semibold text-slate-900 transition-colors duration-200 hover:bg-cyan-100'
 
   const toggleBtnClass = isLight
-    ? 'inline-flex size-10 items-center justify-center rounded-xl border border-slate-300 bg-white text-slate-700 transition-colors duration-200 hover:border-slate-400 hover:bg-slate-100'
-    : 'inline-flex size-10 items-center justify-center rounded-xl border border-white/15 bg-white/5 text-cyan-100 transition-colors duration-200 hover:border-cyan-400/35 hover:bg-white/10 hover:text-white'
+    ? 'inline-flex size-10 items-center justify-center rounded-xl border border-slate-300 bg-white text-slate-700 transition-colors duration-200 hover:border-slate-400 hover:bg-slate-100 sm:size-11'
+    : 'inline-flex size-10 items-center justify-center rounded-xl border border-white/15 bg-white/5 text-cyan-100 transition-colors duration-200 hover:border-cyan-400/35 hover:bg-white/10 hover:text-white sm:size-11'
 
   const loginClass = isLight
-    ? 'rounded-xl bg-[#1a3a78] px-4 py-2 text-xs font-semibold text-white shadow-md shadow-[#1a3a78]/20 transition-all duration-200 hover:bg-[#1e40af] sm:px-5 sm:text-sm'
-    : 'rounded-xl bg-white px-4 py-2 text-xs font-semibold text-slate-900 shadow-lg shadow-black/35 transition-all duration-200 hover:bg-slate-100 sm:px-5 sm:text-sm'
+    ? 'rounded-xl bg-[#1a3a78] px-4 py-2.5 text-sm font-semibold text-white shadow-md shadow-[#1a3a78]/20 transition-all duration-200 hover:bg-[#1e40af] sm:px-5'
+    : 'rounded-xl bg-white px-4 py-2.5 text-sm font-semibold text-slate-900 shadow-lg shadow-black/35 transition-all duration-200 hover:bg-slate-100 sm:px-5'
 
   const signOutClass = isLight
-    ? 'rounded-xl border border-slate-300 bg-white px-3 py-2 text-xs font-semibold text-slate-800 transition-all duration-200 hover:border-slate-400 hover:bg-slate-50 sm:px-4 sm:text-sm'
-    : 'rounded-xl border border-white/15 bg-white/5 px-3 py-2 text-xs font-semibold text-white transition-all duration-200 hover:border-cyan-400/35 hover:bg-white/10 sm:px-4 sm:text-sm'
+    ? 'rounded-xl border border-slate-300 bg-white px-3.5 py-2.5 text-sm font-semibold text-slate-800 transition-all duration-200 hover:border-slate-400 hover:bg-slate-50 sm:px-4'
+    : 'rounded-xl border border-white/15 bg-white/5 px-3.5 py-2.5 text-sm font-semibold text-white transition-all duration-200 hover:border-cyan-400/35 hover:bg-white/10 sm:px-4'
 
   const userLabelClass = isLight
-    ? 'hidden max-w-[100px] truncate text-xs font-medium text-slate-700 sm:inline sm:max-w-[150px] lg:max-w-[200px]'
-    : 'hidden max-w-[100px] truncate text-xs font-medium text-slate-200 sm:inline sm:max-w-[150px] lg:max-w-[200px]'
+    ? 'hidden max-w-[100px] truncate text-xs font-medium text-slate-700 sm:inline sm:max-w-[140px]'
+    : 'hidden max-w-[100px] truncate text-xs font-medium text-slate-200 sm:inline sm:max-w-[140px]'
 
   const mobileLinkClass = isLight
     ? 'block rounded-xl px-3 py-3 text-sm font-medium text-slate-800 transition-colors hover:bg-slate-100'
@@ -182,21 +183,24 @@ const Navbar = () => {
     return false
   }
 
+  const isServicesHubActive =
+    location.pathname === '/services' || location.pathname.startsWith('/services/')
+
   return (
     <header className={headerClass}>
-      <nav className="mx-auto flex h-16 w-full min-w-0 max-w-7xl items-center gap-2 px-4 sm:gap-4 sm:px-6 lg:gap-4 lg:px-8">
-        <NavLink to="/" className={`min-w-0 max-w-[min(100%,11rem)] shrink sm:max-w-none ${brandClass}`}>
-          <img src={logo} alt="" width={40} height={40} className={brandLogoClass} aria-hidden />
-          <span className="truncate sm:whitespace-normal">Compliance World</span>
+      <nav className="mx-auto grid h-[4.5rem] w-full min-w-0 max-w-[96rem] grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] items-center gap-3 px-4 sm:h-20 sm:gap-4 sm:px-6 lg:px-8">
+        {/* Brand */}
+        <NavLink to="/" className={`justify-self-start ${brandClass}`}>
+          <img src={logo} alt="" width={44} height={44} className={brandLogoClass} aria-hidden />
+          <span className="hidden min-[380px]:inline">Compliance World</span>
         </NavLink>
 
-        <div className={navRailClass}>
-          <div className={navScrollPillClass}>
+        {/* Center: content-hugging pill */}
+        <div className="hidden min-w-0 max-w-[min(100%,52rem)] justify-self-center overflow-x-auto [-ms-overflow-style:none] [scrollbar-width:none] xl:flex 2xl:max-w-none [&::-webkit-scrollbar]:hidden">
+          <div className={pillClass}>
             <NavLink
               to="/"
-              className={({ isActive }) =>
-                `shrink-0 rounded-full px-3 py-1.5 text-xs font-medium transition-all duration-200 ${isActive ? linkActive : linkIdle}`
-              }
+              className={({ isActive }) => `${chipBase} ${isActive ? linkActive : linkIdle}`}
             >
               Home
             </NavLink>
@@ -213,12 +217,16 @@ const Navbar = () => {
                   <NavLink
                     to={`/services?category=${encodeURIComponent(category.label)}`}
                     className={() =>
-                      `inline-flex items-center gap-1 whitespace-nowrap rounded-full px-3 py-1.5 text-xs font-medium transition-all duration-200 ${isCategoryNavActive(category) ? linkActive : linkIdle}`
+                      `inline-flex items-center gap-1 ${chipBase} ${
+                        isCategoryNavActive(category) ? linkActive : linkIdle
+                      }`
                     }
                   >
                     {category.label}
                     <span
-                      className={`inline-flex shrink-0 transition-transform duration-200 ${chevronToneClass} ${menuOpen ? '-rotate-180' : ''}`}
+                      className={`inline-flex shrink-0 transition-transform duration-200 ${chevronToneClass} ${
+                        menuOpen ? '-rotate-180' : ''
+                      }`}
                       aria-hidden
                     >
                       <svg viewBox="0 0 12 12" className="size-2.5" fill="currentColor">
@@ -233,44 +241,62 @@ const Navbar = () => {
             <NavLink
               to="/services"
               className={() =>
-                `shrink-0 whitespace-nowrap rounded-full px-3 py-1.5 text-xs font-medium transition-all duration-200 ${
+                `${chipBase} ${
                   location.pathname === '/services' && !searchCategory ? linkActive : linkIdle
                 }`
               }
             >
               All services
             </NavLink>
-
-            <NavLink
-              to="/about-us"
-              className={({ isActive }) =>
-                `shrink-0 whitespace-nowrap rounded-full px-3 py-1.5 text-xs font-medium transition-all duration-200 ${isActive ? linkActive : linkIdle}`
-              }
-            >
-              About Us
-            </NavLink>
-
-            <NavLink
-              to="/contact-us"
-              className={({ isActive }) =>
-                `shrink-0 whitespace-nowrap rounded-full px-3 py-1.5 text-xs font-medium transition-all duration-200 ${isActive ? linkActive : linkIdle}`
-              }
-            >
-              Contact
-            </NavLink>
           </div>
         </div>
 
-        <div className="flex min-w-0 shrink-0 flex-wrap items-center justify-end gap-1.5 sm:gap-2">
+        {/* Right actions */}
+        <div className="flex items-center justify-end gap-2 sm:gap-2.5 justify-self-end">
+          <NavLink
+            to="/services"
+            className={`hidden rounded-full px-4 py-2 text-sm font-semibold transition-colors lg:inline-flex xl:hidden ${
+              isServicesHubActive
+                ? isLight
+                  ? 'bg-[#1a3a78] text-white shadow-sm'
+                  : 'bg-white/10 text-white'
+                : isLight
+                  ? 'border border-slate-200 bg-white text-slate-700 hover:bg-slate-50'
+                  : 'border border-white/15 bg-white/5 text-slate-200 hover:bg-white/10'
+            }`}
+          >
+            Services
+          </NavLink>
+
+          <button
+            type="button"
+            onClick={toggleTheme}
+            className={toggleBtnClass}
+            aria-label={isLight ? 'Switch to dark mode' : 'Switch to light mode'}
+          >
+            {isLight ? <MoonIcon /> : <SunIcon />}
+          </button>
+
+          <button
+            type="button"
+            className={`${toggleBtnClass} xl:hidden`}
+            onClick={() => setMobileMenuOpen(true)}
+            aria-label="Open menu"
+            aria-expanded={mobileMenuOpen}
+            aria-controls="cw-mobile-nav"
+          >
+            <MenuIcon />
+          </button>
+
           {authLoading ? (
             <span
-              className={`rounded-xl px-3 py-2 text-xs font-medium sm:text-sm ${isLight ? 'text-slate-500' : 'text-slate-500'}`}
+              className={`rounded-xl px-3 py-2 text-xs font-medium ${isLight ? 'text-slate-500' : 'text-slate-500'}`}
               aria-hidden
             >
               …
             </span>
           ) : user ? (
-            <div className="flex max-w-[min(100%,280px)] items-center gap-2 sm:gap-3">
+            <div className="flex max-w-[min(100%,240px)] items-center gap-2">
               <span className={userLabelClass} title={user.email ?? ''}>
                 {user.name || user.displayName || user.email?.split('@')[0] || 'Account'}
               </span>
@@ -283,24 +309,6 @@ const Navbar = () => {
               Log in
             </NavLink>
           )}
-          <button
-            type="button"
-            onClick={toggleTheme}
-            className={toggleBtnClass}
-            aria-label={isLight ? 'Switch to dark mode' : 'Switch to light mode'}
-          >
-            {isLight ? <MoonIcon /> : <SunIcon />}
-          </button>
-          <button
-            type="button"
-            className={`${toggleBtnClass} lg:hidden`}
-            onClick={() => setMobileMenuOpen(true)}
-            aria-label="Open menu"
-            aria-expanded={mobileMenuOpen}
-            aria-controls="cw-mobile-nav"
-          >
-            <MenuIcon />
-          </button>
         </div>
       </nav>
 
@@ -345,7 +353,7 @@ const Navbar = () => {
 
       {mobileMenuOpen &&
         createPortal(
-          <div className="fixed inset-0 z-200 lg:hidden" role="presentation">
+          <div className="fixed inset-0 z-200 xl:hidden" role="presentation">
             <button
               type="button"
               className="absolute inset-0 bg-slate-950/55 backdrop-blur-sm"
@@ -357,14 +365,18 @@ const Navbar = () => {
               role="dialog"
               aria-modal="true"
               aria-label="Site navigation"
-              className={`absolute inset-y-0 right-0 flex w-[min(100vw-2rem,20rem)] max-w-full flex-col border-l shadow-2xl ${
+              className={`absolute inset-y-0 right-0 flex w-[min(100vw-2rem,22rem)] max-w-full flex-col border-l shadow-2xl ${
                 isLight ? 'border-slate-200 bg-white' : 'border-white/10 bg-slate-950'
               }`}
             >
               <div
-                className={`flex items-center justify-between border-b px-4 py-3 ${isLight ? 'border-slate-200' : 'border-white/10'}`}
+                className={`flex items-center justify-between border-b px-4 py-3 ${
+                  isLight ? 'border-slate-200' : 'border-white/10'
+                }`}
               >
-                <span className={`text-sm font-semibold ${isLight ? 'text-slate-900' : 'text-white'}`}>Menu</span>
+                <span className={`text-sm font-semibold ${isLight ? 'text-slate-900' : 'text-white'}`}>
+                  Menu
+                </span>
                 <button
                   type="button"
                   className={toggleBtnClass}
@@ -386,12 +398,12 @@ const Navbar = () => {
                       }`}
                     >
                       {category.label}
-                      <span className="text-[10px] opacity-70 transition-transform duration-200 group-open:rotate-180">
-                        ▼
-                      </span>
+                      <span className="text-[10px] opacity-70">▼</span>
                     </summary>
                     <div
-                      className={`space-y-0.5 border-t px-1 pb-3 pt-1 ${isLight ? 'border-slate-100' : 'border-white/10'}`}
+                      className={`space-y-0.5 border-t px-1 pb-3 pt-1 ${
+                        isLight ? 'border-slate-100' : 'border-white/10'
+                      }`}
                     >
                       {category.options.map((option) => (
                         <NavLink
@@ -406,7 +418,9 @@ const Navbar = () => {
                       <NavLink
                         to={`/services?category=${encodeURIComponent(category.label)}`}
                         onClick={() => setMobileMenuOpen(false)}
-                        className={`mt-2 block px-3 py-2 text-xs font-semibold ${isLight ? 'text-indigo-700' : 'text-cyan-300'}`}
+                        className={`mt-2 block px-3 py-2 text-xs font-semibold ${
+                          isLight ? 'text-[#1a3a78]' : 'text-cyan-300'
+                        }`}
                       >
                         View all {category.label}
                       </NavLink>
@@ -419,20 +433,6 @@ const Navbar = () => {
                   className={mobileLinkClass}
                 >
                   All services
-                </NavLink>
-                <NavLink
-                  to="/about-us"
-                  onClick={() => setMobileMenuOpen(false)}
-                  className={mobileLinkClass}
-                >
-                  About Us
-                </NavLink>
-                <NavLink
-                  to="/contact-us"
-                  onClick={() => setMobileMenuOpen(false)}
-                  className={mobileLinkClass}
-                >
-                  Contact
                 </NavLink>
               </div>
             </div>

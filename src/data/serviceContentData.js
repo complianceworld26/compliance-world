@@ -1,4 +1,5 @@
 import complianceChunks from './Txt content/Compliance.json'
+import exportImportChunks from './Txt content/ExportImport.json'
 import gstChunks from './Txt content/GST.json'
 import incomeTaxChunks from './Txt content/Incometax.json'
 import mcaChunks from './Txt content/MCA.json'
@@ -10,6 +11,8 @@ import { serviceCategories } from './servicesData'
 const startupServices = serviceCategories.find((item) => item.label === 'Startup')?.options ?? []
 const registrationServices =
   serviceCategories.find((item) => item.label === 'Registration')?.options ?? []
+const exportImportServices =
+  serviceCategories.find((item) => item.label === 'Export Import')?.options ?? []
 const trademarkServices = serviceCategories.find((item) => item.label === 'Trademark')?.options ?? []
 const gstServices = serviceCategories.find((item) => item.label === 'GST')?.options ?? []
 const incomeTaxServices = serviceCategories.find((item) => item.label === 'Income Tax')?.options ?? []
@@ -31,6 +34,7 @@ const STARTUP_JSON_INDICES = {
   'Public Limited Company': [24, 25, 26],
   'Producer Company': [27, 30, 31],
   'Indian Subsidiary': [32, 33, 34],
+  'Society Registration': [35, 36, 37],
 }
 
 /**
@@ -69,7 +73,7 @@ const REGISTRATION_SERVICE_CHUNKS = {
 
 /**
  * GST.json chunk indices per catalog name (duplicate foreigners block at 19–22 omitted).
- * "GST Registration" has no matching article in GST.json yet—only foreigner-specific and other services.
+ * "GST Registration" has no matching article in GST.json yet, only foreigner-specific and other services.
  */
 const GST_SERVICE_CHUNKS = {
   'GST Registration': { whyIndices: [1], bodyIndices: [0, 2, 3] },
@@ -123,6 +127,7 @@ const INCOME_TAX_SERVICE_CHUNKS = buildOrderedServiceChunkMap(incomeTaxChunks, i
 const MCA_SERVICE_CHUNKS = buildOrderedServiceChunkMap(mcaChunks, mcaServices)
 const COMPLIANCE_SERVICE_CHUNKS = buildOrderedServiceChunkMap(complianceChunks, complianceServices)
 const TRADEMARK_SERVICE_CHUNKS = buildOrderedServiceChunkMap(trademarkChunks, trademarkServices)
+const EXPORT_IMPORT_SERVICE_CHUNKS = buildOrderedServiceChunkMap(exportImportChunks, exportImportServices)
 
 const stripInlineBold = (text) => text.replace(/\*\*([^*]+)\*\*/g, '$1')
 
@@ -376,9 +381,23 @@ const parseTrademarkSections = () => {
   return parsed
 }
 
+const buildExportImportEntry = (serviceName) => {
+  const spec = EXPORT_IMPORT_SERVICE_CHUNKS[serviceName]
+  return buildEntryFromSpec(exportImportChunks, spec, serviceName)
+}
+
+const parseExportImportSections = () => {
+  const parsed = {}
+  exportImportServices.forEach((serviceName) => {
+    parsed[serviceName] = buildExportImportEntry(serviceName)
+  })
+  return parsed
+}
+
 export const serviceContentData = {
   Startup: parseStartupSections(),
   Registration: parseRegistrationSections(),
+  'Export Import': parseExportImportSections(),
   Trademark: parseTrademarkSections(),
   GST: parseGstSections(),
   'Income Tax': parseIncomeTaxSections(),

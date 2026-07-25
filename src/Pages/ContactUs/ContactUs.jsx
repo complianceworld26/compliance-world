@@ -4,6 +4,7 @@ import Footer from '../../components/Footer'
 import { useTheme } from '../../context/ThemeContext'
 import { getWhatsAppChatUrl } from '../../utils/whatsapp'
 import { submitContact } from '../../lib/contactApi'
+import { PHONE_NUMBERS } from '../../data/contactInfo'
 
 const trustPoints = [
   { label: 'Avg. response time', value: '< 24 hours' },
@@ -19,7 +20,7 @@ const contactChannels = [
   },
   {
     title: 'Call Support',
-    value: '+91 90000 00000',
+    phones: PHONE_NUMBERS,
     note: 'Quick discussion for urgent registration and filing timelines.',
   },
   {
@@ -30,7 +31,7 @@ const contactChannels = [
   {
     title: 'WhatsApp',
     value: 'Message us on WhatsApp',
-    note: 'Open a chat in one tap — ideal for quick questions and follow-ups.',
+    note: 'Open a chat in one tap, ideal for quick questions and follow-ups.',
     href: getWhatsAppChatUrl(),
   },
 ]
@@ -252,6 +253,22 @@ const ContactUs = () => {
                         >
                           {item.value}
                         </a>
+                      ) : item.phones ? (
+                        <div className="mt-2 flex flex-col gap-1">
+                          {item.phones.map((phone) => (
+                            <a
+                              key={phone.digits}
+                              href={phone.href}
+                              className={
+                                isLight
+                                  ? 'text-base font-semibold text-indigo-600 underline decoration-indigo-300 underline-offset-4 transition hover:text-indigo-500'
+                                  : 'text-base font-semibold text-cyan-300 underline decoration-cyan-500/50 underline-offset-4 transition hover:text-cyan-200'
+                              }
+                            >
+                              {phone.display}
+                            </a>
+                          ))}
+                        </div>
                       ) : (
                         <p className={channelValueClass}>{item.value}</p>
                       )}

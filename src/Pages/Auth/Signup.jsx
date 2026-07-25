@@ -5,14 +5,13 @@ import { useLocation, useNavigate } from 'react-router-dom'
 const MotionButton = motionNamespace.button
 import AuthLayout from '../../components/AuthLayout'
 import { useAuth } from '../../context/AuthContext'
+import { useTheme } from '../../context/ThemeContext'
 import { formatAuthError } from '../../utils/authErrors'
-
-const inputClass =
-  'w-full rounded-xl border border-white/15 bg-white/5 px-4 py-3 text-sm text-white placeholder:text-slate-400 focus:border-indigo-400 focus:outline-none'
 
 const Signup = () => {
   const location = useLocation()
   const navigate = useNavigate()
+  const { isLight } = useTheme()
   const { user, loading: authLoading, signUpWithEmail } = useAuth()
 
   const [form, setForm] = useState({
@@ -55,6 +54,22 @@ const Signup = () => {
     }
   }
 
+  const inputClass = isLight
+    ? 'w-full rounded-xl border border-slate-200 bg-white px-4 py-3.5 text-sm text-slate-900 placeholder:text-slate-400 shadow-sm focus:border-[#1a3a78] focus:outline-none focus:ring-2 focus:ring-[#1a3a78]/15'
+    : 'w-full rounded-xl border border-white/15 bg-white/5 px-4 py-3.5 text-sm text-white placeholder:text-slate-400 focus:border-cyan-400/60 focus:outline-none focus:ring-2 focus:ring-cyan-400/20'
+
+  const labelClass = isLight
+    ? 'mb-1.5 block text-xs font-semibold text-slate-600'
+    : 'mb-1.5 block text-xs font-medium text-slate-400'
+
+  const linkClass = isLight
+    ? 'font-medium text-[#1a3a78] underline-offset-2 hover:underline'
+    : 'text-cyan-300/90 underline-offset-2 hover:underline'
+
+  const submitClass = isLight
+    ? 'w-full rounded-xl bg-[#1a3a78] px-4 py-3.5 text-sm font-semibold text-white shadow-md shadow-[#1a3a78]/25 transition hover:bg-[#1e40af] disabled:opacity-50'
+    : 'w-full rounded-xl bg-white px-4 py-3.5 text-sm font-semibold text-slate-900 shadow-lg shadow-black/35 transition hover:bg-slate-100 disabled:opacity-50'
+
   return (
     <AuthLayout
       title="Create your account"
@@ -63,14 +78,22 @@ const Signup = () => {
       alternateTo="/login"
       alternateState={{ background: location }}
     >
-      <div className="space-y-4">
+      <div className="space-y-5">
         {error ? (
-          <p className="rounded-xl border border-red-400/25 bg-red-500/10 px-3 py-2 text-xs text-red-100">{error}</p>
+          <p
+            className={
+              isLight
+                ? 'rounded-xl border border-red-200 bg-red-50 px-3 py-2.5 text-xs text-red-700'
+                : 'rounded-xl border border-red-400/25 bg-red-500/10 px-3 py-2.5 text-xs text-red-100'
+            }
+          >
+            {error}
+          </p>
         ) : null}
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label htmlFor="signup-name" className="mb-1.5 block text-xs font-medium text-slate-400">
+            <label htmlFor="signup-name" className={labelClass}>
               Full name
             </label>
             <input
@@ -87,7 +110,7 @@ const Signup = () => {
             />
           </div>
           <div>
-            <label htmlFor="signup-email" className="mb-1.5 block text-xs font-medium text-slate-400">
+            <label htmlFor="signup-email" className={labelClass}>
               Work email
             </label>
             <input
@@ -104,7 +127,7 @@ const Signup = () => {
             />
           </div>
           <div>
-            <label htmlFor="signup-password" className="mb-1.5 block text-xs font-medium text-slate-400">
+            <label htmlFor="signup-password" className={labelClass}>
               Password
             </label>
             <input
@@ -122,7 +145,7 @@ const Signup = () => {
             />
           </div>
           <div>
-            <label htmlFor="signup-confirm" className="mb-1.5 block text-xs font-medium text-slate-400">
+            <label htmlFor="signup-confirm" className={labelClass}>
               Confirm password
             </label>
             <input
@@ -141,11 +164,11 @@ const Signup = () => {
           </div>
           <p className="text-xs leading-relaxed text-slate-500">
             By signing up you agree to our{' '}
-            <a href="/" className="text-cyan-300/90 underline-offset-2 hover:underline">
+            <a href="/" className={linkClass}>
               Terms
             </a>{' '}
             and{' '}
-            <a href="/" className="text-cyan-300/90 underline-offset-2 hover:underline">
+            <a href="/" className={linkClass}>
               Privacy Policy
             </a>
             .
@@ -155,7 +178,7 @@ const Signup = () => {
             whileHover={{ y: -1 }}
             whileTap={{ scale: 0.99 }}
             disabled={busy}
-            className="w-full rounded-xl bg-linear-to-r from-indigo-500 to-violet-500 px-4 py-3 text-sm font-semibold text-white shadow-lg shadow-indigo-950/30 transition hover:from-indigo-400 hover:to-violet-400 disabled:opacity-50"
+            className={submitClass}
           >
             {busy ? 'Creating account…' : 'Create account'}
           </MotionButton>

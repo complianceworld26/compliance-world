@@ -39,7 +39,7 @@ const Disclaimer = () => {
         <h2 className={c.h2}>Professional engagement</h2>
         <p className={c.p}>
           A formal client relationship and scope of work are established through separate communication, quotation, or
-          engagement terms—not merely by browsing this site or submitting a contact form.
+          engagement terms, not merely by browsing this site or submitting a contact form.
         </p>
       </section>
       <section>
