@@ -14,6 +14,9 @@ const CATEGORY_META = {
   Registration: {
     description: 'Licenses, certifications, and statutory registrations for your operations.',
   },
+  'Export Import': {
+    description: 'Export and import documentation, licences, customs clearance, and incentive claims.',
+  },
   Trademark: {
     description: 'Protect brands, designs, copyrights, and patents.',
   },

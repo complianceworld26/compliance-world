@@ -1,5 +1,7 @@
+import { WHATSAPP_FALLBACK_DIGITS } from '../data/contactInfo'
+
 /** International format, digits only (e.g. 919876543210). Override with VITE_WHATSAPP_NUMBER in .env */
-const FALLBACK_DIGITS = '919000000000'
+const FALLBACK_DIGITS = WHATSAPP_FALLBACK_DIGITS
 
 function normalizeDigits(value) {
   if (value == null || value === '') return ''
@@ -13,7 +15,7 @@ export function getWhatsAppDigits() {
 }
 
 /**
- * @param {string} [message] — optional pre-filled message; defaults to VITE_WHATSAPP_DEFAULT_MESSAGE if set
+ * @param {string} [message], optional pre-filled message; defaults to VITE_WHATSAPP_DEFAULT_MESSAGE if set
  */
 export function getWhatsAppChatUrl(message) {
   const digits = getWhatsAppDigits()

@@ -20,7 +20,7 @@ const mainServices = [
   {
     title: 'GST Filing',
     description:
-      'Registration, monthly and quarterly returns, amendments, and notice support — maintained accurately for audit readiness.',
+      'Registration, monthly and quarterly returns, amendments, and notice support, maintained accurately for audit readiness.',
     category: 'GST',
     label: 'Indirect tax',
     Icon: HiOutlineDocumentText,
@@ -73,7 +73,7 @@ const ServicesSection = () => {
             Core compliance services
           </h2>
           <p className="mx-auto mt-4 max-w-2xl text-base leading-relaxed text-slate-400">
-            Registration, tax, and corporate filings for Indian businesses — delivered by specialists who manage the
+            Registration, tax, and corporate filings for Indian businesses, delivered by specialists who manage the
             process end to end.
           </p>
         </div>

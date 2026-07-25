@@ -86,7 +86,7 @@ const InsightsSection = () => {
             <p className="cw-home-eyebrow text-xs font-semibold uppercase tracking-[0.2em] text-cyan-300/90">Insights</p>
             <h2 className="mt-3 text-3xl font-semibold tracking-tight sm:text-4xl">Guides for sharp operators</h2>
             <p className="mt-3 text-sm text-slate-400 sm:text-base">
-              Short reads on the compliance decisions that compound — not generic checklists.
+              Short reads on the compliance decisions that compound, not generic checklists.
             </p>
           </div>
           <NavLink

@@ -33,7 +33,7 @@ const CtaSection = () => {
               Tell us what you need filed next
             </h2>
             <p className="mt-3 text-sm leading-relaxed text-slate-400 sm:text-[15px]">
-              Share your requirement and we&apos;ll outline the steps, documents, and timeline — with one team handling
+              Share your requirement and we&apos;ll outline the steps, documents, and timeline, with one team handling
               it through to completion.
             </p>
           </div>

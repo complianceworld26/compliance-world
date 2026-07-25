@@ -50,7 +50,7 @@ const HowItWorksSection = () => {
           <p className="cw-home-eyebrow text-xs font-semibold uppercase tracking-[0.18em] text-slate-400">How it works</p>
           <h2 className="mt-3 text-3xl font-semibold tracking-tight sm:text-4xl">A clear process from enquiry to completion</h2>
           <p className="mx-auto mt-4 max-w-2xl text-base leading-relaxed text-slate-400">
-            Every engagement follows the same disciplined workflow — so you always know what happens next.
+            Every engagement follows the same disciplined workflow, so you always know what happens next.
           </p>
         </div>
 

@@ -53,7 +53,7 @@ export const parseWhyCalloutFromLines = (lines) => {
     const line = lines[i]
     const next = lines[i + 1]
 
-    const isList = /^[•\-–—*]\s/.test(line) || /^\d+\.\s/.test(line)
+    const isList = /^[•\-–, *]\s/.test(line) || /^\d+\.\s/.test(line)
     const couldBeTitle =
       !isList &&
       line.length >= 10 &&
